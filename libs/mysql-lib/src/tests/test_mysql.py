@@ -14,14 +14,6 @@ from mysql_lib.crud import (
 def test_users_crud():
     print("Testing Users CRUD...")
     
-    # Initialize client
-    # Assuming default credentials as per init.sql/docker setup (root/empty or root/root?)
-    # The init.sql didn't specify a password for root, but usually docker mysql has one.
-    # The user said "docker mysql at port 3306... success".
-    # I'll use the default from the client class (root/empty string) but user might need to adjust.
-    # If the user set a password, they might need to change it here.
-    # For now I will use the defaults in MySQLClient which are: user="root", password=""
-    
     client = MySQLClient()
     
     try:
