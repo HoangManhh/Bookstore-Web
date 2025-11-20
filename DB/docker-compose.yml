@@ -1,0 +1,22 @@
+services:
+  db:
+    image: container-registry.oracle.com/mysql/community-server:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE} 
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-bookstore-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - bookstore-net
+
+volumes:
+  mysql-bookstore-data:
+
+networks:
+  bookstore-net:
+    driver: bridge
