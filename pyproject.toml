@@ -4,9 +4,25 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = []
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "python-multipart",
+    "python-jose",
+    "passlib[bcrypt]",
+    "passlib[argon2]",
+    "mysql-connector-python",
+    "email-validator",
+    "mysql-lib",
+    "bcrypt>=5.0.0",
+    "argon2-cffi",
+]
 
 [tool.uv.workspace]
 members = [
     "libs/mysql-lib",
 ]
+
+[tool.uv.sources]
+mysql-lib = { workspace = true }
