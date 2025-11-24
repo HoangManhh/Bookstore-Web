@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore - Trang chủ</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Tùy chỉnh nhỏ */
+        .product-card img {
+            height: 300px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. Header (Navbar) -->
+    <div id="navbar-placeholder"></div>
+
+    <!-- 2. Hero Banner (Carousel) -->
+    <header class="container my-4">
+        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            </div>
+            <div class="carousel-inner rounded">
+                <div class="carousel-item active">
+                    <img src="https://placehold.co/1200x400/343a40/ffffff?text=Khuyen+Mai+Giam+50%25"
+                        class="d-block w-100" alt="Khuyến mãi 1">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Sách Mới Phát Hành</h5>
+                        <p>Giảm giá 50% cho 100 đơn hàng đầu tiên.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://placehold.co/1200x400/6c757d/ffffff?text=Mien+Phi+Van+Chuyen"
+                        class="d-block w-100" alt="Khuyến mãi 2">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Miễn Phí Vận Chuyển</h5>
+                        <p>Cho mọi đơn hàng từ 200.000đ.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Nội dung chính -->
+    <main class="container">
+
+        <!-- 3. Danh mục nổi bật -->
+        <section class="my-5">
+            <h2 class="text-center mb-4">Danh Mục Nổi Bật</h2>
+            <!-- [CSDL] Lấy từ bảng Categories (name, slug) -->
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
+                <div class="col">
+                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
+                        <div class_name="card-body p-3">
+                            <i class="fa-solid fa-wand-magic-sparkles fa-2x text-primary mb-2"></i>
+                            <h6 class="card-title mb-0">Tiểu thuyết</h6>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
+                        <div class="card-body p-3">
+                            <i class="fa-solid fa-rocket fa-2x text-success mb-2"></i>
+                            <h6 class="card-title mb-0">Khoa học</h6>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
+                        <div class="card-body p-3">
+                            <i class="fa-solid fa-chart-line fa-2x text-danger mb-2"></i>
+                            <h6 class="card-title mb-0">Kinh doanh</h6>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
+                        <div class="card-body p-3">
+                            <i class="fa-solid fa-child fa-2x text-warning mb-2"></i>
+                            <h6 class="card-title mb-0">Thiếu nhi</h6>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
+                        <div class="card-body p-3">
+                            <i class="fa-solid fa-brain fa-2x text-info mb-2"></i>
+                            <h6 class="card-title mb-0">Kỹ năng sống</h6>
+                        </div>
+                    </a>
+                </div>
+                <div class="col">
+                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
+                        <div class="card-body p-3">
+                            <i class="fa-solid fa-landmark fa-2x text-secondary mb-2"></i>
+                            <h6 class="card-title mb-0">Văn học</h6>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Lưới sản phẩm mới nhất -->
+        <section class="my-5">
+            <h2 class="text-center mb-4">Sách Mới Phát Hành</h2>
+            <!-- [CSDL] Lấy từ bảng Products (JOIN Authors) -->
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+
+                <!-- Sản phẩm mẫu 1 -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm product-card">
+                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+1"
+                            class="card-img-top" alt="Bìa sách 1">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Tên sách A</h5>
+                            <p class="card-text text-muted mb-2">Tác giả: Nguyễn Văn A</p>
+                            <h6 class="card-subtitle mb-2 text-danger">120.000đ</h6>
+                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm mẫu 2 -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm product-card">
+                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+2"
+                            class="card-img-top" alt="Bìa sách 2">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Cuốn sách B</h5>
+                            <p class="card-text text-muted mb-2">Tác giả: Trần Thị B</p>
+                            <h6 class="card-subtitle mb-2 text-danger">99.000đ</h6>
+                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm mẫu 3 -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm product-card">
+                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+3"
+                            class="card-img-top" alt="Bìa sách 3">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Hành trình C</h5>
+                            <p class="card-text text-muted mb-2">Tác giả: Lê Văn C</p>
+                            <h6 class="card-subtitle mb-2 text-danger">250.000đ</h6>
+                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sản phẩm mẫu 4 -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm product-card">
+                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+4"
+                            class="card-img-top" alt="Bìa sách 4">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Dấu ấn D</h5>
+                            <p class="card-text text-muted mb-2">Tác giả: Phạm Thị D</p>
+                            <h6 class="card-subtitle mb-2 text-danger">180.000đ</h6>
+                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Thêm 4 sản phẩm mẫu nữa để đủ 2 hàng -->
+                <div class="col">
+                    <div class="card h-100 shadow-sm product-card">
+                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+5"
+                            class="card-img-top" alt="Bìa sách 5">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Sách E</h5>
+                            <p class="card-text text-muted mb-2">Tác giả: Tác giả E</p>
+                            <h6 class="card-subtitle mb-2 text-danger">110.000đ</h6>
+                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm product-card">
+                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+6"
+                            class="card-img-top" alt="Bìa sách 6">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Câu chuyện F</h5>
+                            <p class="card-text text-muted mb-2">Tác giả: Tác giả F</p>
+                            <h6 class="card-subtitle mb-2 text-danger">135.000đ</h6>
+                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm product-card">
+                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+7"
+                            class="card-img-top" alt="Bìa sách 7">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Bí ẩn G</h5>
+                            <p class="card-text text-muted mb-2">Tác giả: Tác giả G</p>
+                            <h6 class="card-subtitle mb-2 text-danger">190.000đ</h6>
+                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm product-card">
+                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+8"
+                            class="card-img-top" alt="Bìa sách 8">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">Tương lai H</h5>
+                            <p class="card-text text-muted mb-2">Tác giả: Tác giả H</p>
+                            <h6 class="card-subtitle mb-2 text-danger">320.000đ</h6>
+                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 5. Footer -->
+    <div id="footer-placeholder"></div>
+
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <!-- Script để tải các thành phần dùng chung -->
+    <script src="js/include.js"></script>
+    <script src="js/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const productContainer = document.querySelector('.row.row-cols-1.row-cols-sm-2.row-cols-md-3.row-cols-lg-4.g-4');
+
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/products/`);
+                if (response.ok) {
+                    const products = await response.json();
+                    productContainer.innerHTML = ''; // Clear hardcoded products
+
+                    products.forEach(product => {
+                        const productCard = `
+                            <div class="col">
+                                <div class="card h-100 shadow-sm product-card">
+                                    <img src="${product.image_url || 'https://placehold.co/300x400?text=No+Image'}" class="card-img-top" alt="${product.name}">
+                                    <div class="card-body d-flex flex-column">
+                                        <h5 class="card-title">${product.name}</h5>
+                                        <p class="card-text text-muted mb-2">Tác giả: ${product.author || 'Unknown'}</p>
+                                        <h6 class="card-subtitle mb-2 text-danger">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}</h6>
+                                        <a href="product-detail.html?id=${product.id}" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        productContainer.insertAdjacentHTML('beforeend', productCard);
+                    });
+                }
+            } catch (error) {
+                console.error('Error loading products:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

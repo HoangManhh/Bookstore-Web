@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore - Đăng ký</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Đảm bảo footer luôn ở cuối trang */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        main {
+            flex: 1;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- 1. Header (Navbar) - Lấy từ index.html -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="z-index: 1021;">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fa-solid fa-book-open-reader"></i>
+                BookStore
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="index.html">Trang chủ</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Danh mục
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                            <li><a class="dropdown-item" href="category.html">Tiểu thuyết</a></li>
+                            <li><a class="dropdown-item" href="category.html">Khoa học Viễn tưởng</a></li>
+                            <li><a class="dropdown-item" href="category.html">Kinh doanh</a></li>
+                            <li><a class="dropdown-item" href="category.html">Sách thiếu nhi</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- Thanh tìm kiếm -->
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm sách, tác giả..." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Tìm</button>
+                </form>
+                <!-- Giỏ hàng và Tài khoản -->
+                <ul class="navbar-nav ms-lg-3 mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.html">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span class="badge rounded-pill bg-danger">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- Đánh dấu 'active' cho trang Tài khoản -->
+                        <a class="nav-link active" href="login.html">
+                            <i class="fa-solid fa-user"></i> Tài khoản
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Nội dung chính -->
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <!-- Tăng chiều rộng một chút để chứa vừa form dài hơn -->
+            <div class="col-md-7 col-lg-6 col-xl-5"> 
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="text-center fw-bold mb-4">Tạo tài khoản</h3>
+                        
+                        <!-- Form Đăng ký -->
+                        <!-- [CSDL] INSERT INTO Users (id, fullname, email, password, address, phone_number) -->
+                        <form action="login.html" method="POST" class="needs-validation" novalidate>
+                            
+                            <!-- [CSDL] Users.fullname -->
+                            <div class="mb-3">
+                                <label for="registerFullname" class="form-label">Họ và tên</label>
+                                <input type="text" class="form-control" id="registerFullname" placeholder="Nguyễn Văn A" required>
+                                <div class="invalid-feedback">
+                                    Vui lòng nhập họ tên của bạn.
+                                </div>
+                            </div>
+
+                            <!-- [CSDL] Users.email -->
+                            <div class="mb-3">
+                                <label for="registerEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="registerEmail" placeholder="email@example.com" required>
+                                <div class="invalid-feedback">
+                                    Vui lòng nhập email hợp lệ.
+                                </div>
+                            </div>
+
+                            <!-- [CSDL] Users.password -->
+                            <div class="mb-3">
+                                <label for="registerPassword" class="form-label">Mật khẩu</label>
+                                <input type="password" class="form-control" id="registerPassword" required>
+                                <div class="invalid-feedback">
+                                    Vui lòng nhập mật khẩu.
+                                </div>
+                            </div>
+                            
+                            <!-- Xác nhận mật khẩu (client-side) -->
+                            <div class="mb-3">
+                                <label for="registerConfirmPassword" class="form-label">Xác nhận mật khẩu</label>
+                                <input type="password" class="form-control" id="registerConfirmPassword" required>
+                                <div class="invalid-feedback">
+                                    Vui lòng xác nhận mật khẩu.
+                                </div>
+                            </div>
+
+                            <hr>
+                            <p class="text-muted">Thông tin bổ sung (Không bắt buộc)</p>
+                            
+                            <!-- [CSDL] Users.phone_number (Optional) -->
+                            <div class="mb-3">
+                                <label for="registerPhone" class="form-label">Số điện thoại</label>
+                                <input type="tel" class="form-control" id="registerPhone" placeholder="090xxxxxxx">
+                            </div>
+                            
+                            <!-- [CSDL] Users.address (Optional) -->
+                            <div class="mb-3">
+                                <label for="registerAddress" class="form-label">Địa chỉ</label>
+                                <textarea class="form-control" id="registerAddress" rows="2" placeholder="123 Đường ABC, Phường X, Quận Y..."></textarea>
+                            </div>
+
+
+                            <div class="d-grid mt-4">
+                                <!-- Nút đăng ký, sau khi thành công sẽ chuyển đến login.html -->
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    <i class="fa-solid fa-user-plus me-2"></i>
+                                    Đăng ký
+                                </button>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <p class="text-center text-muted">Đã có tài khoản?</p>
+                            <div class="d-grid">
+                                <a href="login.html" class="btn btn-outline-primary">
+                                    <i class="fa-solid fa-right-to-bracket me-2"></i>
+                                    Đăng nhập ngay
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 5. Footer - Lấy từ index.html -->
+    <footer class="bg-dark text-white pt-5 pb-4 mt-auto">
+        <div class="container text-center text-md-start">
+            <div class="row">
+                <!-- Cột 1: Giới thiệu -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold">
+                        <i class="fa-solid fa-book-open-Reader me-2"></i>BookStore
+                    </h6>
+                    <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                    <p>
+                        Mang kiến thức đến mọi nhà. Nơi bạn có thể tìm thấy hàng triệu cuốn sách
+                        thuộc mọi lĩnh vực với giá cả tốt nhất.
+                    </p>
+                </div>
+                <!-- Cột 2: Danh mục -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold">Danh mục</h6>
+                    <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                    <p><a href="category.html" class="text-white text-decoration-none">Tiểu thuyết</a></p>
+                    <p><a href="category.html" class="text-white text-decoration-none">Kinh doanh</a></p>
+                    <p><a href="category.html" class="text-white text-decoration-none">Kỹ năng sống</a></p>
+                    <p><a href="category.html" class="text-white text-decoration-none">Thiếu nhi</a></p>
+                </div>
+                <!-- Cột 3: Liên kết -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold">Hỗ trợ</h6>
+                    <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                    <p><a href="#!" class="text-white text-decoration-none">Về chúng tôi</a></p>
+                    <p><a href="#!" class="text-white text-decoration-none">Chính sách đổi trả</a></p>
+                    <p><a href="#!" class="text-white text-decoration-none">Câu hỏi thường gặp</a></p>
+                    <p><a href="#!" class="text-white text-decoration-none">Liên hệ</a></p>
+                </div>
+                <!-- Cột 4: Liên hệ -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                    <h6 class="text-uppercase fw-bold">Liên hệ</h6>
+                    <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                    <p><i class="fas fa-home me-3"></i> 123 Đường ABC, Hà Nội, Việt Nam</p>
+                    <p><i class="fas fa-envelope me-3"></i> info@bookstore.com</p>
+                    <p><i class="fas fa-phone me-3"></i> +84 123 456 789</p>
+                </div>
+            </div>
+        </div>
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            © 2025 Bản quyền thuộc về:
+            <a class="text-white text-decoration-none fw-bold" href="index.html">BookStore.com</a>
+        </div>
+    </footer>
+
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+    <!-- Script bật validation (giống trang checkout) -->
+    <script>
+        (function () {
+            'useVstrict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+                        // Thêm kiểm tra mật khẩu trùng khớp (ví dụ đơn giản)
+                        var password = document.getElementById('registerPassword');
+                        var confirmPassword = document.getElementById('registerConfirmPassword');
+                        if (password.value !== confirmPassword.value) {
+                            confirmPassword.setCustomValidity('Mật khẩu không khớp');
+                            event.preventDefault()
+                            event.stopPropagation()
+                        } else {
+                            confirmPassword.setCustomValidity('');
+                        }
+                        
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+    </script>
+</body>
+</html>

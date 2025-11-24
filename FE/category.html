@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore - Danh mục</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Tùy chỉnh nhỏ */
+        .product-card img {
+            height: 300px;
+            object-fit: cover;
+        }
+        /* Giữ cho sidebar dính lại khi cuộn trên màn hình lớn */
+        @media (min-width: 992px) {
+            .sidebar-sticky {
+                position: sticky;
+                top: 70px; /* 56px navbar + 14px padding */
+                height: calc(100vh - 70px);
+                overflow-y: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Header (Navbar) - Lấy từ index.html -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">
+                <i class="fa-solid fa-book-open-reader"></i>
+                BookStore
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <!-- Bỏ 'active' khỏi Trang chủ -->
+                        <a class="nav-link" aria-current="page" href="index.html">Trang chủ</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <!-- Có thể thêm 'active' ở đây nếu muốn -->
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Danh mục
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                            <!-- [CSDL] Lấy từ bảng Categories -->
+                            <li><a class="dropdown-item" href="category.html">Tiểu thuyết</a></li>
+                            <li><a class="dropdown-item" href="category.html">Khoa học Viễn tưởng</a></li>
+                            <li><a class="dropdown-item" href="category.html">Kinh doanh</a></li>
+                            <li><a class="dropdown-item" href="category.html">Sách thiếu nhi</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- Thanh tìm kiếm -->
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm sách, tác giả..." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Tìm</button>
+                </form>
+                <!-- Giỏ hàng và Tài khoản -->
+                <ul class="navbar-nav ms-lg-3 mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="cart.html">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span class="badge rounded-pill bg-danger">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.html">
+                            <i class="fa-solid fa-user"></i> Tài khoản
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Nội dung chính -->
+    <main class="container my-4">
+
+        <!-- Breadcrumb và Tiêu đề -->
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Tiểu thuyết</li>
+                    </ol>
+                </nav>
+                <!-- [CSDL] Lấy từ Categories.name -->
+                <h2 class="mb-4">Tiểu thuyết</h2>
+            </div>
+        </div>
+
+        <!-- Bố cục 2 cột: Filter và Grid -->
+        <div class="row">
+
+            <!-- 1. Bộ lọc (Filters) - Sidebar -->
+            <aside class="col-lg-3 col-md-4">
+                <div class="sidebar-sticky p-3 bg-light rounded shadow-sm">
+                    <h4 class="mb-3">Bộ lọc</h4>
+                    
+                    <!-- [CSDL] Dùng Accordion của Bootstrap cho các bộ lọc -->
+                    <div class="accordion" id="filterAccordion">
+
+                        <!-- Lọc theo Khoảng giá -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingPrice">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrice" aria-expanded="true" aria-controls="collapsePrice">
+                                    Khoảng giá
+                                </button>
+                            </h2>
+                            <div id="collapsePrice" class="accordion-collapse collapse show" aria-labelledby="headingPrice">
+                                <div class="accordion-body">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="priceRange" id="price1">
+                                        <label class="form-check-label" for="price1">
+                                            Dưới 100.000đ
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="priceRange" id="price2">
+                                        <label class="form-check-label" for="price2">
+                                            100.000đ - 200.000đ
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="priceRange" id="price3">
+                                        <label class="form-check-label" for="price3">
+                                            Trên 200.000đ
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lọc theo Tác giả -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingAuthor">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAuthor" aria-expanded="false" aria-controls="collapseAuthor">
+                                    Tác giả
+                                </button>
+                            </h2>
+                            <div id="collapseAuthor" class="accordion-collapse collapse" aria-labelledby="headingAuthor">
+                                <div class="accordion-body" style="max-height: 200px; overflow-y: auto;">
+                                    <!-- [CSDL] Lấy từ bảng Authors -->
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="author1">
+                                        <label class="form-check-label" for="author1">Nguyễn Văn A</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="author2">
+                                        <label class="form-check-label" for="author2">Trần Thị B</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="author3">
+                                        <label class="form-check-label" for="author3">Lê Văn C</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="author4">
+                                        <label class="form-check-label" for="author4">Phạm Thị D</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lọc theo Nhà xuất bản -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingPublisher">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePublisher" aria-expanded="false" aria-controls="collapsePublisher">
+                                    Nhà xuất bản
+                                </button>
+                            </h2>
+                            <div id="collapsePublisher" class="accordion-collapse collapse" aria-labelledby="headingPublisher">
+                                <div class="accordion-body">
+                                    <!-- [CSDL] Lấy từ bảng Publishers -->
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="pub1">
+                                        <label class="form-check-label" for="pub1">NXB Trẻ</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="pub2">
+                                        <label class="form-check-label" for="pub2">NXB Kim Đồng</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="pub3">
+                                        <label class="form-check-label" for="pub3">NXB Văn Học</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- [MỚI] Nút Lọc sản phẩm -->
+                    <div class="d-grid mt-4">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fa-solid fa-filter me-2"></i> Lọc
+                        </button>
+                    </div>
+
+                </div>
+            </aside>
+
+            <!-- 2. Lưới sản phẩm và Sắp xếp -->
+            <div class="col-lg-9 col-md-8">
+                
+                <!-- Nút sắp xếp -->
+                <div class="d-flex justify-content-end mb-3">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Sắp xếp: Mới nhất
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                            <li><a class="dropdown-item" href="#">Mới nhất</a></li>
+                            <li><a class="dropdown-item" href="#">Giá: Tăng dần</a></li>
+                            <li><a class="dropdown-item" href="#">Giá: Giảm dần</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Lưới sản phẩm (Product Grid) -->
+                <!-- [CSDL] Lấy từ bảng Products -->
+                <!-- Thay đổi thành lg-3 (3 cột) thay vì lg-4 như ở trang chủ -->
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+                    
+                    <!-- Sản phẩm mẫu 1 -->
+                    <div class="col">
+                        <div class="card h-100 shadow-sm product-card">
+                            <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+1" class="card-img-top" alt="Bìa sách 1">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Tên sách A</h5>
+                                <p class="card-text text-muted mb-2">Tác giả: Nguyễn Văn A</p>
+                                <h6 class="card-subtitle mb-2 text-danger">120.000đ</h6>
+                                <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sản phẩm mẫu 2 -->
+                    <div class="col">
+                        <div class="card h-100 shadow-sm product-card">
+                            <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+2" class="card-img-top" alt="Bìa sách 2">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Cuốn sách B</h5>
+                                <p class="card-text text-muted mb-2">Tác giả: Trần Thị B</p>
+                                <h6 class="card-subtitle mb-2 text-danger">99.000đ</h6>
+                                <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sản phẩm mẫu 3 -->
+                    <div class="col">
+                        <div class="card h-100 shadow-sm product-card">
+                            <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+3" class="card-img-top" alt="Bìa sách 3">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Hành trình C</h5>
+                                <p class="card-text text-muted mb-2">Tác giả: Lê Văn C</p>
+                                <h6 class="card-subtitle mb-2 text-danger">250.000đ</h6>
+                                <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sản phẩm mẫu 4 -->
+                    <div class="col">
+                        <div class="card h-100 shadow-sm product-card">
+                            <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+4" class="card-img-top" alt="Bìa sách 4">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Dấu ấn D</h5>
+                                <p class="card-text text-muted mb-2">Tác giả: Phạm Thị D</p>
+                                <h6 class="card-subtitle mb-2 text-danger">180.000đ</h6>
+                                <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sản phẩm mẫu 5 -->
+                    <div class="col">
+                        <div class="card h-100 shadow-sm product-card">
+                            <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+5" class="card-img-top" alt="Bìa sách 5">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Sách E</h5>
+                                <p class="card-text text-muted mb-2">Tác giả: Tác giả E</p>
+                                <h6 class="card-subtitle mb-2 text-danger">110.000đ</h6>
+                                <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Sản phẩm mẫu 6 -->
+                    <div class="col">
+                        <div class="card h-100 shadow-sm product-card">
+                            <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+6" class="card-img-top" alt="Bìa sách 6">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Câu chuyện F</h5>
+                                <p class="card-text text-muted mb-2">Tác giả: Tác giả F</p>
+                                <h6 class="card-subtitle mb-2 text-danger">135.000đ</h6>
+                                <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- Hết .row (lưới sản phẩm) -->
+
+                <!-- Phân trang (Pagination) -->
+                <nav aria-label="Page navigation" class="mt-5">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
+                        </li>
+                        <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Sau</a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 5. Footer - Lấy từ index.html -->
+    <footer class="bg-dark text-white pt-5 pb-4 mt-5">
+        <div class="container text-center text-md-start">
+            <div class="row">
+                <!-- Cột 1: Giới thiệu -->
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold">
+                        <i class="fa-solid fa-book-open-Reader me-2"></i>BookStore
+                    </h6>
+                    <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                    <p>
+                        Mang kiến thức đến mọi nhà. Nơi bạn có thể tìm thấy hàng triệu cuốn sách
+                        thuộc mọi lĩnh vực với giá cả tốt nhất.
+                    </p>
+                </div>
+
+                <!-- Cột 2: Danh mục -->
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold">Danh mục</h6>
+                    <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                    <p><a href="category.html" class="text-white text-decoration-none">Tiểu thuyết</a></p>
+                    <p><a href="category.html" class="text-white text-decoration-none">Kinh doanh</a></p>
+                    <p><a href="category.html" class="text-white text-decoration-none">Kỹ năng sống</a></p>
+                    <p><a href="category.html" class="text-white text-decoration-none">Thiếu nhi</a></p>
+                </div>
+
+                <!-- Cột 3: Liên kết -->
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                    <h6 class="text-uppercase fw-bold">Hỗ trợ</h6>
+                    <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                    <p><a href="#!" class="text-white text-decoration-none">Về chúng tôi</a></p>
+                    <p><a href="#!" class="text-white text-decoration-none">Chính sách đổi trả</a></p>
+                    <p><a href="#!" class="text-white text-decoration-none">Câu hỏi thường gặp</a></p>
+                    <p><a href="#!" class="text-white text-decoration-none">Liên hệ</a></p>
+                </div>
+
+                <!-- Cột 4: Liên hệ -->
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                    <h6 class="text-uppercase fw-bold">Liên hệ</h6>
+                    <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                    <p><i class="fas fa-home me-3"></i> 123 Đường ABC, Hà Nội, Việt Nam</p>
+                    <p><i class="fas fa-envelope me-3"></i> info@bookstore.com</p>
+                    <p><i class="fas fa-phone me-3"></i> +84 123 456 789</p>
+                </div>
+            </div>
+        </div>
+        <!-- Copyright -->
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            © 2025 Bản quyền thuộc về:
+            <a class="text-white text-decoration-none fw-bold" href="index.html">BookStore.com</a>
+        </div>
+    </footer>
+
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

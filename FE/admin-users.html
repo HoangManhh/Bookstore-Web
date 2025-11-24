@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore - Quản lý Người dùng</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- CSS Tùy chỉnh (Lấy từ admin-dashboard.html) -->
+    <style>
+        body {
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Sidebar */
+        #sidebar-wrapper {
+            min-height: 100vh;
+            width: 250px;
+            background-color: #212529;
+            transition: margin .25s ease-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        #sidebar-wrapper .sidebar-heading {
+            padding: 1.5rem 1.25rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            border-bottom: 1px solid #495057;
+        }
+
+        #sidebar-wrapper .list-group {
+            width: 100%;
+        }
+
+        #sidebar-wrapper .list-group-item {
+            background-color: #212529;
+            color: #adb5bd;
+            border: none;
+            padding: 1rem 1.25rem;
+            transition: all 0.2s ease-in-out;
+        }
+
+        #sidebar-wrapper .list-group-item:hover,
+        #sidebar-wrapper .list-group-item:focus {
+            color: #ffffff;
+            background-color: #343a40;
+        }
+        
+        #sidebar-wrapper .list-group-item.active {
+            color: #ffffff;
+            background-color: #0d6efd;
+            font-weight: bold;
+            border-left: 4px solid #ffffff;
+        }
+
+        /* Content Wrapper */
+        #page-content-wrapper {
+            flex: 1;
+            min-width: 0;
+            background-color: #f8f9fa;
+        }
+
+        /* Top Navbar */
+        .admin-header-nav {
+            border-bottom: 1px solid #dee2e6;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. Sidebar (Menu Quản trị) -->
+    <div class="d-flex" id="sidebar-wrapper">
+        <div class="d-flex flex-column">
+            <!-- Logo/Tên trang -->
+            <div class="sidebar-heading text-center">
+                <i class="fa-solid fa-book-shield me-2"></i>
+                BookStore<span class="text-primary">Admin</span>
+            </div>
+            
+            <!-- Menu -->
+            <div class="list-group list-group-flush">
+                <a href="admin-dashboard.html" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-chart-line fa-fw me-2"></i> Tổng quan
+                </a>
+                <a href="admin-products.html" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-book fa-fw me-2"></i> Quản lý Sản phẩm
+                </a>
+                <a href="admin-orders.html" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-file-invoice-dollar fa-fw me-2"></i> Quản lý Đơn hàng
+                </a>
+                <a href="admin-users.html" class="list-group-item list-group-item-action active">
+                    <i class="fa-solid fa-users fa-fw me-2"></i> Quản lý Người dùng
+                </a>
+                <a href="admin-authors.html" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-feather-pointed fa-fw me-2"></i> Quản lý Tác giả
+                </a>
+                <a href="admin-publishers.html" class="list-group-item list-group-item-action">
+                    <i class="fa-solid fa-building fa-fw me-2"></i> Quản lý NXB
+                </a>
+                <!-- Đánh dấu 'active' cho trang này -->
+                <a href="admin-categories.html" class="list-group-item list-group-item-action" aria-current="true">
+                    <i class="fa-solid fa-tags fa-fw me-2"></i> Quản lý Danh mục
+                </a>
+            </div>
+
+            <!-- Nút Đăng xuất -->
+            <div class="mt-auto p-3 border-top" style="border-color: #495057 !important;">
+                <a href="index.html" class="btn btn-outline-danger w-100">
+                    <i class="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Page Content Wrapper (Nội dung chính) -->
+    <div id="page-content-wrapper">
+        
+        <!-- Header của Admin (Top Navbar) -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-white admin-header-nav shadow-sm">
+            <div class="container-fluid">
+                <button class="btn btn-light d-lg-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h4 class="mb-0 d-none d-lg-block">Quản lý Người dùng</h4>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminAccountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user-shield me-2"></i> Admin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminAccountDropdown">
+                            <li><a class="dropdown-item" href="#">Cài đặt</a></li>
+                            <li><a class="dropdown-item text-danger" href="index.html">Đăng xuất</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Nội dung Quản lý Người dùng -->
+        <main class="container-fluid p-4">
+            
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                           <h5 class="card-title mb-0">Danh sách Người dùng</h5>
+                           <!-- Form tìm kiếm -->
+                            <form>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="Tìm theo Email, Tên...">
+                                    <button class="btn btn-outline-secondary" type="submit">
+                                        <i class="fa-solid fa-search me-1"></i> Tìm
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-body">
+                            
+                            <!-- Bảng liệt kê người dùng -->
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col">Họ tên</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Số điện thoại</th>
+                                            <th scope="col">Ngày tham gia</th>
+                                            <th scope="col">Vai trò</th>
+                                            <th scope="col">Trạng thái</th>
+                                            <th scope="col">Hành động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- [CSDL] Lặp lại dữ liệu từ SELECT * FROM Users -->
+                                        <!-- Dữ liệu mẫu 1 (Admin) -->
+                                        <tr>
+                                            <!-- Users.fullname -->
+                                            <td class="fw-bold">Admin</td>
+                                            <!-- Users.email -->
+                                            <td class="font-monospace">admin@bookstore.com</td>
+                                            <!-- Users.phone_number -->
+                                            <td>0123456789</td>
+                                            <!-- Users.created_at -->
+                                            <td>10/10/2025</td>
+                                            <!-- Users.role -->
+                                            <td><span class="badge bg-primary">Admin</span></td>
+                                            <!-- [CSDL] Cần thêm cột Users.status -->
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-danger" disabled>
+                                                    <i class="fa-solid fa-lock"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!-- Dữ liệu mẫu 2 (Customer - Active) -->
+                                        <tr>
+                                            <td>Nguyễn Văn A</td>
+                                            <td class="font-monospace">a@gmail.com</td>
+                                            <td>0901234567</td>
+                                            <td>10/10/2025</td>
+                                            <td><span class="badge bg-secondary">Customer</span></td>
+                                            <td><span class="badge bg-success">Active</span></td>
+                                            <td>
+                                                <!-- [THAY ĐỔI] Nút này sẽ mở modal banUserModal -->
+                                                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#banUserModal">
+                                                    <i class="fa-solid fa-lock me-1"></i> Khóa
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!-- Dữ liệu mẫu 3 (Customer - Banned) -->
+                                        <tr>
+                                            <td>Lê Văn C</td>
+                                            <td class="font-monospace">c@gmail.com</td>
+                                            <td>0912345678</td>
+                                            <td>05/09/2025</td>
+                                            <td><span class="badge bg-secondary">Customer</span></td>
+                                            <!-- [CSDL] Cần thêm cột Users.status -->
+                                            <td><span class="badge bg-danger">Banned</span></td>
+                                            <td>
+                                                <!-- [THAY ĐỔI] Nút này sẽ mở modal unbanUserModal -->
+                                                <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#unbanUserModal">
+                                                    <i class="fa-solid fa-lock-open me-1"></i> Mở khóa
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> <!-- Hết table-responsive -->
+
+                            <!-- Phân trang -->
+                            <nav aria-label="Page navigation" class="mt-4">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
+                                    </li>
+                                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Sau</a>
+                                    </li>
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Modal (Popup) Xác nhận Khóa (Ban) -->
+    <div class="modal fade" id="banUserModal" tabindex="-1" aria-labelledby="banUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="banUserModalLabel"><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i> Xác nhận Khóa Tài khoản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn khóa tài khoản này? Người dùng sẽ không thể đăng nhập hoặc đặt hàng.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <!-- [CSDL] Nút này sẽ UPDATE Users SET status = 'banned' -->
+                    <button type="button" class="btn btn-danger">Xác nhận Khóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal (Popup) Xác nhận Mở Khóa (Unban) -->
+    <div class="modal fade" id="unbanUserModal" tabindex="-1" aria-labelledby="unbanUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="unbanUserModalLabel"><i class="fa-solid fa-circle-check text-success me-2"></i> Xác nhận Mở khóa Tài khoản</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Bạn có chắc chắn muốn mở khóa cho tài khoản này?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <!-- [CSDL] Nút này sẽ UPDATE Users SET status = 'active' -->
+                    <button type="button" class="btn btn-success">Xác nhận Mở khóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+</body>
+</html>
