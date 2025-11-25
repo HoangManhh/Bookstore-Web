@@ -84,49 +84,60 @@
 
     <!-- Nội dung chính -->
     <main class="container my-5">
-        <div class="invalid-feedback">
-            Vui lòng nhập email hợp lệ.
-        </div>
-        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6 col-xl-5">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="text-center fw-bold mb-4">Đăng nhập</h3>
 
-        <!-- [CSDL] Users.password -->
-        <div class="mb-3">
-            <label for="loginPassword" class="form-label">Mật khẩu</label>
-            <input type="password" class="form-control" id="loginPassword" required>
-            <div class="invalid-feedback">
-                Vui lòng nhập mật khẩu.
+                        <form id="loginForm" class="needs-validation" novalidate>
+                            <!-- Email input -->
+                            <div class="mb-3">
+                                <label for="loginEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="loginEmail" placeholder="email@example.com"
+                                    required>
+                                <div class="invalid-feedback">
+                                    Vui lòng nhập email hợp lệ.
+                                </div>
+                            </div>
+
+                            <!-- Password input -->
+                            <div class="mb-3">
+                                <label for="loginPassword" class="form-label">Mật khẩu</label>
+                                <input type="password" class="form-control" id="loginPassword" required>
+                                <div class="invalid-feedback">
+                                    Vui lòng nhập mật khẩu.
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Ghi nhớ</label>
+                                </div>
+                                <a href="#" class="text-decoration-none">Quên mật khẩu?</a>
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fa-solid fa-right-to-bracket me-2"></i>
+                                    Đăng nhập
+                                </button>
+                            </div>
+
+                            <hr class="my-4">
+
+                            <p class="text-center text-muted">Chưa có tài khoản?</p>
+                            <div class="d-grid">
+                                <a href="register.html" class="btn btn-outline-success">
+                                    <i class="fa-solid fa-user-plus me-2"></i>
+                                    Đăng ký ngay
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="rememberMe">
-                <label class="form-check-label" for="rememberMe">Ghi nhớ</label>
-            </div>
-            <a href="#" class="text-decoration-none">Quên mật khẩu?</a>
-        </div>
-
-        <div class="d-grid">
-            <!-- Nút đăng nhập -->
-            <button type="submit" class="btn btn-primary btn-lg">
-                <i class="fa-solid fa-right-to-bracket me-2"></i>
-                Đăng nhập
-            </button>
-        </div>
-
-        <hr class="my-4">
-
-        <p class="text-center text-muted">Chưa có tài khoản?</p>
-        <div class="d-grid">
-            <a href="register.html" class="btn btn-outline-success">
-                <i class="fa-solid fa-user-plus me-2"></i>
-                Đăng ký ngay
-            </a>
-        </div>
-        </form>
-        </div>
-        </div>
-        </div>
         </div>
     </main>
 
@@ -210,7 +221,7 @@
     <script src="js/config.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const form = document.querySelector('form');
+            const form = document.getElementById('loginForm');
             form.addEventListener('submit', async function (e) {
                 e.preventDefault();
                 if (!form.checkValidity()) return;

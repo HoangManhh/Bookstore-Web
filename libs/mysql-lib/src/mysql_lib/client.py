@@ -1,3 +1,4 @@
+import os
 import mysql.connector
 from mysql.connector import Error
 from typing import Optional, List, Dict, Any, Tuple
@@ -5,11 +6,11 @@ from typing import Optional, List, Dict, Any, Tuple
 class MySQLClient:
     def __init__(self, host: str = "localhost", user: str = "root", password: str = "pass", database: str = "bookstore_db", port: int = 3306):
         self.config = {
-            "host": host,
-            "user": user,
-            "password": password,
-            "database": database,
-            "port": port
+            "host": host or os.getenv("MYSQL_HOST", "localhost"),
+            "user": user or os.getenv("MYSQL_USER", "root"),
+            "password": password or os.getenv("MYSQL_PASSWORD", "pass"),
+            "database": database or os.getenv("MYSQL_DATABASE", "bookstore_db"),
+            "port": port or int(os.getenv("MYSQL_PORT", 3306))
         }
         self.connection = None
 

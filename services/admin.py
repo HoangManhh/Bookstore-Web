@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from typing import List, Optional, Dict, Any
-from mysql_lib.client import MySQLClient
+from pydantic import BaseModel
+from mysql_lib import MySQLClient
+from mysql_lib import list_users, update_user, get_user
 from services.auth import get_current_user
 
 router = APIRouter(prefix="/admin", tags=["admin"])
@@ -39,3 +41,42 @@ def get_revenue_stats(
         """
         stats = client.fetch_query(query)
         return stats
+
+@router.get("/users")
+def get_all_users(
+    limit: int = 100,
+    offset: int = 0,
+    current_user: dict = Depends(get_current_admin)
+):
+    with MySQLClient() as client:
+        users = list_users(client, limit=limit, offset=offset)
+        return users
+
+class UserUpdate(BaseModel):
+    fullname: Optional[str] = None
+    address: Optional[str] = None
+    phone_number: Optional[str] = None
+    role: Optional[str] = None
+    status: Optional[str] = None
+
+@router.put("/users/{user_id}")
+def update_user_info(
+    user_id: str,
+    user_update: UserUpdate,
+    current_user: dict = Depends(get_current_admin)
+):
+    with MySQLClient() as client:
+        # Check if user exists
+        existing_user = get_user(client, user_id)
+        if not existing_user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        # Filter out None values
+        update_data = {k: v for k, v in user_update.dict().items() if v is not None}
+        
+        if not update_data:
+            raise HTTPException(status_code=400, detail="No data provided for update")
+
+        update_user(client, user_id, **update_data)
+        
+        return {"message": "User updated successfully", "user_id": user_id}
