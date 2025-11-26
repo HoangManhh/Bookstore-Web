@@ -1,0 +1,15 @@
+--- CATEGORY ---
+Created: 08f62be4-1aa5-4e74-a937-3aa1a4f569f9
+{"id":"08f62be4-1aa5-4e74-a937-3aa1a4f569f9","name":"Test Cat File","slug":"test-cat-file","description":"Desc"}
+{"message":"Category updated successfully","category_id":"08f62be4-1aa5-4e74-a937-3aa1a4f569f9"}
+{"id":"08f62be4-1aa5-4e74-a937-3aa1a4f569f9","name":"Updated Cat File","slug":"test-cat-file","description":"Updated Desc"}
+--- AUTHOR ---
+Created: 7ba8051c-e8e6-41f0-8012-62d2db942b5c
+{"id":"7ba8051c-e8e6-41f0-8012-62d2db942b5c","name":"Test Author File","year_of_birth":null,"year_of_death":null,"hometown":"Hometown","created_at":"2025-11-26T01:38:12"}
+{"message":"Author updated successfully","author_id":"7ba8051c-e8e6-41f0-8012-62d2db942b5c"}
+{"id":"7ba8051c-e8e6-41f0-8012-62d2db942b5c","name":"Updated Author File","year_of_birth":null,"year_of_death":null,"hometown":"Updated Hometown","created_at":"2025-11-26T01:38:12"}
+--- PUBLISHER ---
+Created: 0f367306-e742-45b8-bd72-49326b7c763c
+{"id":"0f367306-e742-45b8-bd72-49326b7c763c","name":"Test Pub File","address":"Address","created_at":"2025-11-26T01:38:12"}
+{"message":"Publisher updated successfully","publisher_id":"0f367306-e742-45b8-bd72-49326b7c763c"}
+{"id":"0f367306-e742-45b8-bd72-49326b7c763c","name":"Updated Pub File","address":"Updated Address","created_at":"2025-11-26T01:38:12"}

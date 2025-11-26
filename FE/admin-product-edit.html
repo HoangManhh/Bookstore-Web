@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookStore - Thêm/Sửa Sản phẩm</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- CSS Tùy chỉnh (Lấy từ admin-dashboard.html) -->
     <style>
         body {
@@ -16,16 +20,16 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
+
         /* Sidebar */
         #sidebar-wrapper {
             min-height: 100vh;
             width: 250px;
             background-color: #212529;
             transition: margin .25s ease-out;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         #sidebar-wrapper .sidebar-heading {
             padding: 1.5rem 1.25rem;
             font-size: 1.5rem;
@@ -51,7 +55,7 @@
             color: #ffffff;
             background-color: #343a40;
         }
-        
+
         #sidebar-wrapper .list-group-item.active {
             color: #ffffff;
             background-color: #0d6efd;
@@ -70,15 +74,16 @@
         .admin-header-nav {
             border-bottom: 1px solid #dee2e6;
         }
-        
+
         /* Cột bên phải dính lại */
         .sticky-aside {
             position: sticky;
-            top: 70px; /* 56px navbar + 14px padding */
+            top: 70px;
+            /* 56px navbar + 14px padding */
         }
-
     </style>
 </head>
+
 <body>
 
     <!-- 1. Sidebar (Menu Quản trị) -->
@@ -89,7 +94,7 @@
                 <i class="fa-solid fa-book-shield me-2"></i>
                 BookStore<span class="text-primary">Admin</span>
             </div>
-            
+
             <!-- Menu -->
             <div class="list-group list-group-flush">
                 <a href="admin-dashboard.html" class="list-group-item list-group-item-action">
@@ -127,7 +132,7 @@
 
     <!-- 2. Page Content Wrapper (Nội dung chính) -->
     <div id="page-content-wrapper">
-        
+
         <!-- Header của Admin (Top Navbar) -->
         <nav class="navbar navbar-expand-lg navbar-light bg-white admin-header-nav shadow-sm">
             <div class="container-fluid">
@@ -137,7 +142,8 @@
                 <h4 class="mb-0 d-none d-lg-block">Thêm/Sửa Sản phẩm</h4>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="adminAccountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminAccountDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-user-shield me-2"></i> Admin
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminAccountDropdown">
@@ -151,7 +157,7 @@
 
         <!-- Nội dung Form Thêm/Sửa Sản phẩm -->
         <main class="container-fluid p-4">
-            
+
             <!-- Breadcrumb -->
             <nav aria-label="breadcrumb" class="mb-3">
                 <ol class="breadcrumb">
@@ -162,7 +168,7 @@
             </nav>
 
             <form action="admin-products.html" method="POST" class="needs-validation" novalidate>
-                
+
                 <!-- Bố cục 2 cột -->
                 <div class="row g-4">
 
@@ -175,13 +181,15 @@
                             <div class="card-body">
                                 <div class="mb-3">
                                     <label for="productTitle" class="form-label">Tên sản phẩm (Tiêu đề sách)</label>
-                                    <input type="text" class="form-control" id="productTitle" placeholder="Tên sách A" required>
+                                    <input type="text" class="form-control" id="productTitle" placeholder="Tên sách A"
+                                        required>
                                     <div class="invalid-feedback">Vui lòng nhập tên sản phẩm.</div>
                                 </div>
-                                
+
                                 <div class="mb-3">
                                     <label for="productDescription" class="form-label">Mô tả sản phẩm</label>
-                                    <textarea class="form-control" id="productDescription" rows="10" placeholder="Mô tả chi tiết về nội dung sách..."></textarea>
+                                    <textarea class="form-control" id="productDescription" rows="10"
+                                        placeholder="Mô tả chi tiết về nội dung sách..."></textarea>
                                 </div>
                             </div>
                         </div>
@@ -207,7 +215,8 @@
                                         <!-- [THAY ĐỔI] Thêm class d-none (ẩn)
                                              Logic: Chỉ hiện nút này khi SỬA (URL có ID), ẩn khi THÊM MỚI
                                         -->
-                                        <button type="button" class="btn btn-outline-danger d-none" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal">
+                                        <button type="button" class="btn btn-outline-danger d-none"
+                                            data-bs-toggle="modal" data-bs-target="#deleteConfirmModal">
                                             <i class="fa-solid fa-trash-can me-2"></i> Xóa sản phẩm
                                         </button>
                                     </div>
@@ -223,21 +232,23 @@
                                     <div class="mb-3">
                                         <label for="productPrice" class="form-label">Giá bán</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="productPrice" placeholder="120000" min="0" step="1000" required>
+                                            <input type="number" class="form-control" id="productPrice"
+                                                placeholder="120000" min="0" step="1000" required>
                                             <span class="input-group-text">VNĐ</span>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <label for="productStock" class="form-label">Số lượng tồn kho</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" id="productStock" placeholder="50" min="0" required>
+                                            <input type="number" class="form-control" id="productStock" placeholder="50"
+                                                min="0" required>
                                             <span class="input-group-text">Quyển</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <!-- Card Phân loại (Quan trọng nhất) -->
                             <div class="card shadow-sm border-0 mb-3">
                                 <div class="card-header bg-white py-3">
@@ -248,18 +259,13 @@
                                         <label for="productCategory" class="form-label">Danh mục</label>
                                         <select class="form-select" id="productCategory" required>
                                             <option value="" selected disabled>Chọn danh mục...</option>
-                                            <option value="uuid-cat-1">Tiểu thuyết</option>
-                                            <option value="uuid-cat-2">Kinh doanh</option>
-                                            <option value="uuid-cat-3">Khoa học</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="mb-3">
                                         <label for="productAuthor" class="form-label">Tác giả</label>
                                         <select class="form-select" id="productAuthor" required>
                                             <option value="" selected disabled>Chọn tác giả...</option>
-                                            <option value="uuid-auth-1">Nguyễn Văn A</option>
-                                            <option value="uuid-auth-2">Trần Thị B</option>
                                         </select>
                                     </div>
 
@@ -267,8 +273,6 @@
                                         <label for="productPublisher" class="form-label">Nhà xuất bản</label>
                                         <select class="form-select" id="productPublisher" required>
                                             <option value="" selected disabled>Chọn NXB...</option>
-                                            <option value="uuid-pub-1">NXB Trẻ</option>
-                                            <option value="uuid-pub-2">NXB Kim Đồng</option>
                                         </select>
                                     </div>
                                 </div>
@@ -281,10 +285,12 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="mb-3">
-                                        <label for="productImage" class="form-label">Tải ảnh bìa</label>
-                                        <input class="form-control" type="file" id="productImage">
+                                        <label for="productImage" class="form-label">URL Ảnh bìa</label>
+                                        <input class="form-control" type="text" id="productImage"
+                                            placeholder="https://example.com/image.jpg">
                                     </div>
-                                    <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Preview" class="img-fluid rounded" alt="Xem trước ảnh">
+                                    <img src="https://placehold.co/400x600?text=Preview" id="imagePreview"
+                                        class="img-fluid rounded" alt="Xem trước ảnh">
                                 </div>
                             </div>
                         </div>
@@ -295,11 +301,13 @@
 
             <!-- Modal xác nhận xóa (dùng chung với trang list) -->
             <!-- Nút Xóa ở trên (ẩn) sẽ kích hoạt modal này -->
-            <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+            <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="deleteConfirmModalLabel"><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i> Xác nhận Xóa</h5>
+                            <h5 class="modal-title" id="deleteConfirmModalLabel"><i
+                                    class="fa-solid fa-triangle-exclamation text-danger me-2"></i> Xác nhận Xóa</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -317,8 +325,10 @@
     </div>
 
     <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
     <!-- Script bật validation (giống trang checkout) -->
     <script>
         (function () {
@@ -336,5 +346,177 @@
                 })
         })()
     </script>
+    <script src="js/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            const isEditMode = !!productId;
+
+            const form = document.querySelector('form');
+            const deleteBtn = document.querySelector('.btn-outline-danger');
+            const pageTitle = document.querySelector('h4');
+            const breadcrumbActive = document.querySelector('.breadcrumb-item.active');
+            const imageInput = document.getElementById('productImage');
+            const imagePreview = document.getElementById('imagePreview');
+
+            // Update UI based on mode
+            if (isEditMode) {
+                pageTitle.textContent = 'Sửa Sản phẩm';
+                breadcrumbActive.textContent = 'Sửa Sản phẩm';
+                deleteBtn.classList.remove('d-none');
+            } else {
+                pageTitle.textContent = 'Thêm Sản phẩm';
+                breadcrumbActive.textContent = 'Thêm Sản phẩm';
+                deleteBtn.classList.add('d-none');
+            }
+
+            // Image preview logic
+            imageInput.addEventListener('input', function () {
+                if (this.value) {
+                    imagePreview.src = this.value;
+                } else {
+                    imagePreview.src = 'https://placehold.co/400x600?text=Preview';
+                }
+            });
+
+            // Fetch Metadata (Categories, Authors, Publishers)
+            try {
+                const [categoriesRes, authorsRes, publishersRes] = await Promise.all([
+                    fetch(`${CONFIG.API_BASE_URL}/admin/categories`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                    fetch(`${CONFIG.API_BASE_URL}/admin/authors`, { headers: { 'Authorization': `Bearer ${token}` } }),
+                    fetch(`${CONFIG.API_BASE_URL}/admin/publishers`, { headers: { 'Authorization': `Bearer ${token}` } })
+                ]);
+
+                if (categoriesRes.ok) {
+                    const categories = await categoriesRes.json();
+                    const select = document.getElementById('productCategory');
+                    select.innerHTML = '<option value="" selected disabled>Chọn danh mục...</option>';
+                    categories.forEach(c => {
+                        select.innerHTML += `<option value="${c.id}">${c.name}</option>`;
+                    });
+                }
+
+                if (authorsRes.ok) {
+                    const authors = await authorsRes.json();
+                    const select = document.getElementById('productAuthor');
+                    select.innerHTML = '<option value="" selected disabled>Chọn tác giả...</option>';
+                    authors.forEach(a => {
+                        select.innerHTML += `<option value="${a.id}">${a.name}</option>`;
+                    });
+                }
+
+                if (publishersRes.ok) {
+                    const publishers = await publishersRes.json();
+                    const select = document.getElementById('productPublisher');
+                    select.innerHTML = '<option value="" selected disabled>Chọn NXB...</option>';
+                    publishers.forEach(p => {
+                        select.innerHTML += `<option value="${p.id}">${p.name}</option>`;
+                    });
+                }
+
+                // If Edit Mode, fetch product details
+                if (isEditMode) {
+                    const productRes = await fetch(`${CONFIG.API_BASE_URL}/products/${productId}`);
+                    if (productRes.ok) {
+                        const product = await productRes.json();
+                        document.getElementById('productTitle').value = product.title;
+                        document.getElementById('productDescription').value = product.description || '';
+                        document.getElementById('productPrice').value = product.price;
+                        document.getElementById('productStock').value = product.stock_quantity;
+                        document.getElementById('productCategory').value = product.category_id || '';
+                        document.getElementById('productAuthor').value = product.author_id || '';
+                        document.getElementById('productPublisher').value = product.publisher_id || '';
+                        document.getElementById('productImage').value = product.image_url || '';
+                        if (product.image_url) imagePreview.src = product.image_url;
+                    } else {
+                        alert('Không tìm thấy sản phẩm!');
+                        window.location.href = 'admin-products.html';
+                    }
+                }
+
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                alert('Có lỗi xảy ra khi tải dữ liệu!');
+            }
+
+            // Handle Form Submit
+            form.addEventListener('submit', async function (e) {
+                e.preventDefault();
+                if (!form.checkValidity()) return;
+
+                const data = {
+                    title: document.getElementById('productTitle').value,
+                    description: document.getElementById('productDescription').value,
+                    price: parseFloat(document.getElementById('productPrice').value),
+                    stock_quantity: parseInt(document.getElementById('productStock').value),
+                    category_id: document.getElementById('productCategory').value,
+                    author_id: document.getElementById('productAuthor').value,
+                    publisher_id: document.getElementById('productPublisher').value,
+                    image_url: document.getElementById('productImage').value
+                };
+
+                try {
+                    const url = isEditMode
+                        ? `${CONFIG.API_BASE_URL}/admin/products/${productId}`
+                        : `${CONFIG.API_BASE_URL}/admin/products`;
+
+                    const method = isEditMode ? 'PUT' : 'POST';
+
+                    const response = await fetch(url, {
+                        method: method,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        alert(isEditMode ? 'Cập nhật thành công!' : 'Thêm mới thành công!');
+                        window.location.href = 'admin-products.html';
+                    } else {
+                        const err = await response.json();
+                        alert(`Lỗi: ${err.detail || 'Không thể lưu sản phẩm'}`);
+                    }
+                } catch (error) {
+                    console.error('Error saving product:', error);
+                    alert('Có lỗi xảy ra khi lưu sản phẩm!');
+                }
+            });
+
+            // Handle Delete
+            const confirmDeleteBtn = document.querySelector('#deleteConfirmModal .btn-danger');
+            confirmDeleteBtn.addEventListener('click', async function () {
+                if (!isEditMode) return;
+
+                try {
+                    const response = await fetch(`${CONFIG.API_BASE_URL}/admin/products/${productId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.ok) {
+                        alert('Xóa thành công!');
+                        window.location.href = 'admin-products.html';
+                    } else {
+                        alert('Không thể xóa sản phẩm!');
+                    }
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                    alert('Có lỗi xảy ra khi xóa sản phẩm!');
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>

@@ -245,7 +245,19 @@
                         const data = await response.json();
                         localStorage.setItem('token', data.access_token);
                         alert('Đăng nhập thành công!');
-                        window.location.href = 'index.html';
+
+                        // Decode token to check role
+                        try {
+                            const payload = JSON.parse(atob(data.access_token.split('.')[1]));
+                            if (payload.role === 'admin') {
+                                window.location.href = 'admin-dashboard.html';
+                            } else {
+                                window.location.href = 'index.html';
+                            }
+                        } catch (e) {
+                            console.error('Error decoding token:', e);
+                            window.location.href = 'index.html';
+                        }
                     } else {
                         alert('Đăng nhập thất bại! Vui lòng kiểm tra lại email hoặc mật khẩu.');
                     }

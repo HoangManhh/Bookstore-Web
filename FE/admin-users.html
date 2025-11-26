@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookStore - Quản lý Người dùng</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- CSS Tùy chỉnh (Lấy từ admin-dashboard.html) -->
     <style>
         body {
@@ -16,16 +20,16 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
+
         /* Sidebar */
         #sidebar-wrapper {
             min-height: 100vh;
             width: 250px;
             background-color: #212529;
             transition: margin .25s ease-out;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         #sidebar-wrapper .sidebar-heading {
             padding: 1.5rem 1.25rem;
             font-size: 1.5rem;
@@ -51,7 +55,7 @@
             color: #ffffff;
             background-color: #343a40;
         }
-        
+
         #sidebar-wrapper .list-group-item.active {
             color: #ffffff;
             background-color: #0d6efd;
@@ -70,9 +74,9 @@
         .admin-header-nav {
             border-bottom: 1px solid #dee2e6;
         }
-
     </style>
 </head>
+
 <body>
 
     <!-- 1. Sidebar (Menu Quản trị) -->
@@ -83,7 +87,7 @@
                 <i class="fa-solid fa-book-shield me-2"></i>
                 BookStore<span class="text-primary">Admin</span>
             </div>
-            
+
             <!-- Menu -->
             <div class="list-group list-group-flush">
                 <a href="admin-dashboard.html" class="list-group-item list-group-item-action">
@@ -121,7 +125,7 @@
 
     <!-- 2. Page Content Wrapper (Nội dung chính) -->
     <div id="page-content-wrapper">
-        
+
         <!-- Header của Admin (Top Navbar) -->
         <nav class="navbar navbar-expand-lg navbar-light bg-white admin-header-nav shadow-sm">
             <div class="container-fluid">
@@ -131,7 +135,8 @@
                 <h4 class="mb-0 d-none d-lg-block">Quản lý Người dùng</h4>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="adminAccountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminAccountDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-user-shield me-2"></i> Admin
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminAccountDropdown">
@@ -145,13 +150,13 @@
 
         <!-- Nội dung Quản lý Người dùng -->
         <main class="container-fluid p-4">
-            
+
             <div class="row">
                 <div class="col-12">
                     <div class="card shadow-sm border-0">
                         <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                           <h5 class="card-title mb-0">Danh sách Người dùng</h5>
-                           <!-- Form tìm kiếm -->
+                            <h5 class="card-title mb-0">Danh sách Người dùng</h5>
+                            <!-- Form tìm kiếm -->
                             <form>
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="Tìm theo Email, Tên...">
@@ -162,7 +167,7 @@
                             </form>
                         </div>
                         <div class="card-body">
-                            
+
                             <!-- Bảng liệt kê người dùng -->
                             <div class="table-responsive">
                                 <table class="table table-hover align-middle">
@@ -209,7 +214,8 @@
                                             <td><span class="badge bg-success">Active</span></td>
                                             <td>
                                                 <!-- [THAY ĐỔI] Nút này sẽ mở modal banUserModal -->
-                                                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#banUserModal">
+                                                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#banUserModal">
                                                     <i class="fa-solid fa-lock me-1"></i> Khóa
                                                 </button>
                                             </td>
@@ -225,7 +231,8 @@
                                             <td><span class="badge bg-danger">Banned</span></td>
                                             <td>
                                                 <!-- [THAY ĐỔI] Nút này sẽ mở modal unbanUserModal -->
-                                                <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal" data-bs-target="#unbanUserModal">
+                                                <button class="btn btn-sm btn-outline-success" data-bs-toggle="modal"
+                                                    data-bs-target="#unbanUserModal">
                                                     <i class="fa-solid fa-lock-open me-1"></i> Mở khóa
                                                 </button>
                                             </td>
@@ -240,7 +247,8 @@
                                     <li class="page-item disabled">
                                         <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
                                     </li>
-                                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a>
+                                    </li>
                                     <li class="page-item"><a class="page-link" href="#">2</a></li>
                                     <li class="page-item"><a class="page-link" href="#">3</a></li>
                                     <li class="page-item">
@@ -262,7 +270,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="banUserModalLabel"><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i> Xác nhận Khóa Tài khoản</h5>
+                    <h5 class="modal-title" id="banUserModalLabel"><i
+                            class="fa-solid fa-triangle-exclamation text-danger me-2"></i> Xác nhận Khóa Tài khoản</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -276,13 +285,14 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Modal (Popup) Xác nhận Mở Khóa (Unban) -->
     <div class="modal fade" id="unbanUserModal" tabindex="-1" aria-labelledby="unbanUserModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="unbanUserModalLabel"><i class="fa-solid fa-circle-check text-success me-2"></i> Xác nhận Mở khóa Tài khoản</h5>
+                    <h5 class="modal-title" id="unbanUserModalLabel"><i
+                            class="fa-solid fa-circle-check text-success me-2"></i> Xác nhận Mở khóa Tài khoản</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -297,8 +307,235 @@
         </div>
     </div>
 
+    <!-- Modal (Popup) Sửa thông tin User -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editUserModalLabel">Sửa thông tin người dùng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editUserForm">
+                        <input type="hidden" id="editUserId">
+                        <div class="mb-3">
+                            <label for="editFullname" class="form-label">Họ tên</label>
+                            <input type="text" class="form-control" id="editFullname">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editEmail" disabled readonly>
+                            <div class="form-text">Không thể thay đổi Email.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editPhone" class="form-label">Số điện thoại</label>
+                            <input type="text" class="form-control" id="editPhone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editAddress" class="form-label">Địa chỉ</label>
+                            <input type="text" class="form-control" id="editAddress">
+                        </div>
+                        <div class="mb-3">
+                            <label for="editRole" class="form-label">Vai trò</label>
+                            <select class="form-select" id="editRole">
+                                <option value="customer">Customer</option>
+                                <option value="admin">Admin</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="saveUserChanges()">Lưu thay đổi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="js/config.js"></script>
+    <script>
+        let allUsers = [];
+        let userToBanId = null;
+        let userToUnbanId = null;
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            await loadUsers();
+        });
+
+        async function loadUsers() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/admin/users`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    allUsers = await response.json();
+                    renderUsers(allUsers);
+                } else {
+                    alert('Không thể tải danh sách người dùng. Vui lòng đăng nhập lại.');
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Lỗi kết nối đến server.');
+            }
+        }
+
+        function renderUsers(users) {
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
+
+            users.forEach(user => {
+                const tr = document.createElement('tr');
+                const statusBadge = user.status === 'active'
+                    ? '<span class="badge bg-success">Active</span>'
+                    : '<span class="badge bg-danger">Banned</span>';
+
+                const roleBadge = user.role === 'admin'
+                    ? '<span class="badge bg-primary">Admin</span>'
+                    : '<span class="badge bg-secondary">Customer</span>';
+
+                let actionButtons = `
+                    <button class="btn btn-sm btn-outline-primary me-1" onclick="openEditModal('${user.id}')">
+                        <i class="fa-solid fa-pen"></i>
+                    </button>
+                `;
+
+                if (user.role !== 'admin') { // Don't allow banning admins easily
+                    if (user.status === 'active') {
+                        actionButtons += `
+                            <button class="btn btn-sm btn-outline-danger" onclick="confirmBan('${user.id}')" data-bs-toggle="modal" data-bs-target="#banUserModal">
+                                <i class="fa-solid fa-lock"></i>
+                            </button>
+                        `;
+                    } else {
+                        actionButtons += `
+                            <button class="btn btn-sm btn-outline-success" onclick="confirmUnban('${user.id}')" data-bs-toggle="modal" data-bs-target="#unbanUserModal">
+                                <i class="fa-solid fa-lock-open"></i>
+                            </button>
+                        `;
+                    }
+                }
+
+                tr.innerHTML = `
+                    <td class="fw-bold">${user.fullname || 'N/A'}</td>
+                    <td class="font-monospace">${user.email}</td>
+                    <td>${user.phone_number || 'N/A'}</td>
+                    <td>${user.created_at || 'N/A'}</td>
+                    <td>${roleBadge}</td>
+                    <td>${statusBadge}</td>
+                    <td>${actionButtons}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openEditModal(userId) {
+            const user = allUsers.find(u => u.id === userId);
+            if (!user) return;
+
+            document.getElementById('editUserId').value = user.id;
+            document.getElementById('editFullname').value = user.fullname || '';
+            document.getElementById('editEmail').value = user.email;
+            document.getElementById('editPhone').value = user.phone_number || '';
+            document.getElementById('editAddress').value = user.address || '';
+            document.getElementById('editRole').value = user.role;
+
+            const modal = new bootstrap.Modal(document.getElementById('editUserModal'));
+            modal.show();
+        }
+
+        async function saveUserChanges() {
+            const userId = document.getElementById('editUserId').value;
+            const data = {
+                fullname: document.getElementById('editFullname').value,
+                phone_number: document.getElementById('editPhone').value,
+                address: document.getElementById('editAddress').value,
+                role: document.getElementById('editRole').value
+            };
+
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/admin/users/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    alert('Cập nhật thành công!');
+                    bootstrap.Modal.getInstance(document.getElementById('editUserModal')).hide();
+                    loadUsers(); // Reload list
+                } else {
+                    alert('Cập nhật thất bại!');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Lỗi kết nối.');
+            }
+        }
+
+        function confirmBan(userId) {
+            userToBanId = userId;
+        }
+
+        function confirmUnban(userId) {
+            userToUnbanId = userId;
+        }
+
+        // Bind Ban/Unban buttons in modals
+        document.querySelector('#banUserModal .btn-danger').addEventListener('click', async () => {
+            if (userToBanId) await updateUserStatus(userToBanId, 'banned');
+        });
+
+        document.querySelector('#unbanUserModal .btn-success').addEventListener('click', async () => {
+            if (userToUnbanId) await updateUserStatus(userToUnbanId, 'active');
+        });
+
+        async function updateUserStatus(userId, status) {
+            const token = localStorage.getItem('token');
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/admin/users/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ status: status })
+                });
+
+                if (response.ok) {
+                    // Close modals
+                    const banModal = bootstrap.Modal.getInstance(document.getElementById('banUserModal'));
+                    if (banModal) banModal.hide();
+                    const unbanModal = bootstrap.Modal.getInstance(document.getElementById('unbanUserModal'));
+                    if (unbanModal) unbanModal.hide();
+
+                    loadUsers();
+                } else {
+                    alert('Thay đổi trạng thái thất bại!');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Lỗi kết nối.');
+            }
+        }
+    </script>
 </body>
+
 </html>
