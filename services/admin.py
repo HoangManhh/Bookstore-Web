@@ -497,14 +497,54 @@ def update_order_status(
     current_user: dict = Depends(get_current_admin)
 ):
     with MySQLClient() as client:
-        # Verify order exists
-        order_query = "SELECT id FROM Orders WHERE id = %s"
-        if not client.fetch_one(order_query, (order_id,)):
-             raise HTTPException(status_code=404, detail="Order not found")
+        try:
+            client.start_transaction()
+            
+            # 1. Fetch current order status and items
+            order_query = "SELECT status FROM Orders WHERE id = %s FOR UPDATE"
+            order = client.fetch_one(order_query, (order_id,))
+            if not order:
+                 raise HTTPException(status_code=404, detail="Order not found")
+            
+            current_status = order['status']
+            new_status = order_update.status
 
-        # Update status
-        # Note: admin_note is not in the schema yet, so we only update status for now
-        # If admin_note is added to DB, we can update it here.
-        update_order(client, order_id, status=order_update.status)
-        
-        return {"message": "Order updated successfully", "order_id": order_id}
+            # 2. Handle Stock Changes
+            if current_status != 'cancelled' and new_status == 'cancelled':
+                # Restore stock
+                items_query = "SELECT product_id, quantity FROM OrderItems WHERE order_id = %s"
+                items = client.fetch_query(items_query, (order_id,))
+                
+                restore_stock_query = "UPDATE Products SET stock_quantity = stock_quantity + %s WHERE id = %s"
+                for item in items:
+                    client.execute_query(restore_stock_query, (item['quantity'], item['product_id']))
+                    
+            elif current_status == 'cancelled' and new_status != 'cancelled':
+                # Deduct stock (Check availability first)
+                items_query = "SELECT product_id, quantity FROM OrderItems WHERE order_id = %s"
+                items = client.fetch_query(items_query, (order_id,))
+                
+                check_stock_query = "SELECT stock_quantity FROM Products WHERE id = %s FOR UPDATE"
+                deduct_stock_query = "UPDATE Products SET stock_quantity = stock_quantity - %s WHERE id = %s"
+                
+                for item in items:
+                    # Check
+                    product = client.fetch_one(check_stock_query, (item['product_id'],))
+                    if not product:
+                        raise HTTPException(status_code=400, detail=f"Product {item['product_id']} not found")
+                    
+                    if product['stock_quantity'] < item['quantity']:
+                        raise HTTPException(status_code=400, detail=f"Insufficient stock to restore order. Product {item['product_id']} only has {product['stock_quantity']} left.")
+                    
+                    # Deduct
+                    client.execute_query(deduct_stock_query, (item['quantity'], item['product_id']))
+
+            # 3. Update Status
+            update_order(client, order_id, status=new_status)
+            
+            client.commit()
+            return {"message": "Order updated successfully", "order_id": order_id}
+            
+        except Exception as e:
+            client.rollback()
+            raise e
