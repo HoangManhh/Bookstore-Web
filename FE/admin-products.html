@@ -207,19 +207,8 @@
                             </div> <!-- Hết table-responsive -->
 
                             <!-- Phân trang -->
-                            <nav aria-label="Page navigation" class="mt-4">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
-                                    </li>
-                                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Sau</a>
-                                    </li>
-                                </ul>
+                            <nav aria-label="Page navigation" class="mt-4" id="paginationContainer">
+                                <!-- Pagination will be rendered dynamically -->
                             </nav>
 
                         </div>
@@ -251,14 +240,16 @@
             </div>
         </div>
     </div>
-
-
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="js/config.js"></script>
+    <script src="js/pagination.js"></script>
     <script>
+        let productsPagination = null;
+        let deleteProductId = null;
+
         document.addEventListener('DOMContentLoaded', async function () {
             const token = localStorage.getItem('token');
             if (!token) {
@@ -279,6 +270,52 @@
             const topbarLogoutBtn = document.getElementById('topbarLogoutBtn');
             if (topbarLogoutBtn) topbarLogoutBtn.addEventListener('click', handleLogout);
 
+            const tbody = document.getElementById('productsTableBody');
+
+            // Render products function
+            function renderProducts(products) {
+                tbody.innerHTML = '';
+
+                if (products.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" class="text-center">Chưa có sản phẩm nào.</td></tr>';
+                    return;
+                }
+
+                products.forEach(product => {
+                    const tr = document.createElement('tr');
+                    const price = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price);
+                    const stockBadge = product.stock_quantity > 0
+                        ? `<span class="badge bg-success">${product.stock_quantity}</span>`
+                        : `<span class="badge bg-danger">Hết hàng</span>`;
+
+                    const imageUrl = product.image_url || 'https://placehold.co/60x80/f8f9fa/6c757d?text=No+Image';
+
+                    tr.innerHTML = `
+                        <td>
+                            <img src="${imageUrl}" class="product-table-img" alt="${product.title}">
+                        </td>
+                        <td class="fw-bold">${product.title}</td>
+                        <td>${product.author_name || 'N/A'}</td>
+                        <td>${product.category_name || 'N/A'}</td>
+                        <td>${product.publisher_name || 'N/A'}</td>
+                        <td class="text-danger">${price}</td>
+                        <td>${stockBadge}</td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a href="admin-product-edit.html?id=${product.id}" class="btn btn-sm btn-outline-warning">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" onclick="prepareDelete('${product.id}')">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // Fetch products
             try {
                 const response = await fetch(`${CONFIG.API_BASE_URL}/admin/products`, {
                     headers: {
@@ -288,41 +325,27 @@
 
                 if (response.ok) {
                     const products = await response.json();
-                    const tbody = document.getElementById('productsTableBody');
-                    tbody.innerHTML = '';
 
-                    products.forEach(product => {
-                        const tr = document.createElement('tr');
-                        const price = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price);
-                        const stockBadge = product.stock_quantity > 0
-                            ? `<span class="badge bg-success">${product.stock_quantity}</span>`
-                            : `<span class="badge bg-danger">Hết hàng</span>`;
+                    if (products.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="8" class="text-center">Chưa có sản phẩm nào.</td></tr>';
+                        return;
+                    }
 
-                        const imageUrl = product.image_url || 'https://placehold.co/60x80/f8f9fa/6c757d?text=No+Image';
+                    // Initialize or update pagination
+                    if (!productsPagination) {
+                        productsPagination = new Pagination({
+                            items: products,
+                            itemsPerPage: 8, // 8 products per page
+                            containerSelector: '.table-responsive',
+                            paginationSelector: '#paginationContainer',
+                            renderCallback: renderProducts
+                        });
+                    } else {
+                        productsPagination.updateItems(products);
+                    }
 
-                        tr.innerHTML = `
-                            <td>
-                                <img src="${imageUrl}" class="product-table-img" alt="${product.title}">
-                            </td>
-                            <td class="fw-bold">${product.title}</td>
-                            <td>${product.author_name || 'N/A'}</td>
-                            <td>${product.category_name || 'N/A'}</td>
-                            <td>${product.publisher_name || 'N/A'}</td>
-                            <td class="text-danger">${price}</td>
-                            <td>${stockBadge}</td>
-                            <td>
-                                <div class="d-flex gap-2">
-                                    <a href="admin-product-edit.html?id=${product.id}" class="btn btn-sm btn-outline-warning">
-                                        <i class="fa-solid fa-pen-to-square"></i>
-                                    </a>
-                                    <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmModal" onclick="prepareDelete('${product.id}')">
-                                        <i class="fa-solid fa-trash-can"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
+                    // Render first page
+                    productsPagination.render();
                 } else {
                     console.error('Failed to fetch products');
                     if (response.status === 401 || response.status === 403) {
@@ -332,13 +355,46 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center text-danger">Có lỗi xảy ra khi tải dữ liệu.</td></tr>';
+            }
+
+            // Delete Product Logic
+            const deleteConfirmBtn = document.querySelector('#deleteConfirmModal .btn-danger');
+            if (deleteConfirmBtn) {
+                deleteConfirmBtn.addEventListener('click', async function () {
+                    if (!deleteProductId) return;
+
+                    try {
+                        const response = await fetch(`${CONFIG.API_BASE_URL}/admin/products/${deleteProductId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+
+                        if (response.ok) {
+                            // Close modal
+                            const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
+                            if (modal) modal.hide();
+
+                            // Show success message
+                            alert('Xóa sản phẩm thành công!');
+
+                            // Reload page to refresh data
+                            location.reload();
+                        } else {
+                            alert('Xóa sản phẩm thất bại!');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Lỗi kết nối!');
+                    }
+                });
             }
         });
 
-        function prepareDelete(productId) {
-            // Store product ID to delete
-            console.log('Prepare delete for:', productId);
-            // Implement delete logic here later
+        function prepareDelete(id) {
+            deleteProductId = id;
         }
     </script>
 </body>

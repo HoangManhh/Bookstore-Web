@@ -193,17 +193,8 @@
                             </div> <!-- Hết table-responsive -->
 
                             <!-- Phân trang -->
-                            <nav aria-label="Page navigation" class="mt-4">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
-                                    </li>
-                                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Sau</a>
-                                    </li>
-                                </ul>
+                            <nav aria-label="Page navigation" class="mt-4" id="paginationContainer">
+                                <!-- Pagination will be rendered here dynamically -->
                             </nav>
 
                         </div>
@@ -245,8 +236,10 @@
         crossorigin="anonymous"></script>
 
     <script src="js/config.js"></script>
+    <script src="js/pagination.js"></script>
     <script>
         let deleteAuthorId = null;
+        let authorsPagination = null;
 
         document.addEventListener('DOMContentLoaded', async function () {
             const token = localStorage.getItem('token');
@@ -259,6 +252,36 @@
             const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
             const confirmDeleteBtn = document.querySelector('#deleteConfirmModal .btn-danger');
 
+            // Hàm render authors cho một trang
+            function renderAuthors(authors) {
+                tableBody.innerHTML = '';
+
+                if (authors.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Chưa có tác giả nào.</td></tr>';
+                    return;
+                }
+
+                authors.forEach(author => {
+                    const row = `
+                        <tr>
+                            <td class="fw-bold">${author.name}</td>
+                            <td>${author.year_of_birth || '-'}</td>
+                            <td>${author.year_of_death || '-'}</td>
+                            <td>${author.hometown || '-'}</td>
+                            <td>
+                                <a href="admin-author-edit.html?id=${author.id}" class="btn btn-sm btn-outline-warning">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${author.id}')">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            }
+
             async function fetchAuthors() {
                 try {
                     const response = await fetch(`${CONFIG.API_BASE_URL}/admin/authors`, {
@@ -269,39 +292,34 @@
 
                     if (response.ok) {
                         const authors = await response.json();
-                        tableBody.innerHTML = '';
 
                         if (authors.length === 0) {
-                            tableBody.innerHTML = '<tr><td colspan="4" class="text-center">Chưa có tác giả nào.</td></tr>';
+                            tableBody.innerHTML = '<tr><td colspan="5" class="text-center">Chưa có tác giả nào.</td></tr>';
                             return;
                         }
 
-                        authors.forEach(author => {
-                            const row = `
-                                <tr>
-                                    <td class="fw-bold">${author.name}</td>
-                                    <td>${author.year_of_birth || '-'}</td>
-                                    <td>${author.year_of_death || '-'}</td>
-                                    <td>${author.hometown || '-'}</td>
-                                    <td>
-                                        <a href="admin-author-edit.html?id=${author.id}" class="btn btn-sm btn-outline-warning">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${author.id}')">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            `;
-                            tableBody.innerHTML += row;
-                        });
+                        // Khởi tạo hoặc cập nhật pagination
+                        if (!authorsPagination) {
+                            authorsPagination = new Pagination({
+                                items: authors,
+                                itemsPerPage: 6, // Hiển thị 6 tác giả mỗi trang
+                                containerSelector: '.table-responsive',
+                                paginationSelector: '#paginationContainer',
+                                renderCallback: renderAuthors
+                            });
+                        } else {
+                            authorsPagination.updateItems(authors);
+                        }
+
+                        // Render trang đầu tiên
+                        authorsPagination.render();
                     } else {
                         console.error('Failed to fetch authors');
-                        tableBody.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Lỗi khi tải dữ liệu.</td></tr>';
+                        tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Lỗi khi tải dữ liệu.</td></tr>';
                     }
                 } catch (error) {
                     console.error('Error:', error);
-                    tableBody.innerHTML = '<tr><td colspan="4" class="text-center text-danger">Có lỗi xảy ra.</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">Có lỗi xảy ra.</td></tr>';
                 }
             }
 

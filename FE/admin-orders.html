@@ -206,19 +206,8 @@
                             </div> <!-- Hết table-responsive -->
 
                             <!-- Phân trang -->
-                            <nav aria-label="Page navigation" class="mt-4">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
-                                    </li>
-                                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Sau</a>
-                                    </li>
-                                </ul>
+                            <nav aria-label="Page navigation" class="mt-4" id="paginationContainer">
+                                <!-- Pagination will be rendered dynamically -->
                             </nav>
 
                         </div>
@@ -236,7 +225,10 @@
         crossorigin="anonymous"></script>
 
     <script src="js/config.js"></script>
+    <script src="js/pagination.js"></script>
     <script>
+        let ordersPagination = null;
+
         document.addEventListener('DOMContentLoaded', async function () {
             const token = localStorage.getItem('token');
             if (!token) {
@@ -257,6 +249,59 @@
             const topbarLogoutBtn = document.getElementById('topbarLogoutBtn');
             if (topbarLogoutBtn) topbarLogoutBtn.addEventListener('click', handleLogout);
 
+            const tbody = document.getElementById('ordersTableBody');
+
+            // Render orders function
+            function renderOrders(orders) {
+                tbody.innerHTML = '';
+
+                if (orders.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center">Chưa có đơn hàng nào.</td></tr>';
+                    return;
+                }
+
+                orders.forEach(order => {
+                    const tr = document.createElement('tr');
+                    const total = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.total_amount);
+                    const date = new Date(order.order_date).toLocaleDateString('vi-VN');
+
+                    let statusBadge = '';
+                    switch (order.status) {
+                        case 'pending':
+                            statusBadge = '<span class="badge bg-warning text-dark">Chờ xử lý</span>';
+                            break;
+                        case 'processing':
+                            statusBadge = '<span class="badge bg-info text-dark">Đang xử lý</span>';
+                            break;
+                        case 'shipped':
+                            statusBadge = '<span class="badge bg-primary">Đang giao</span>';
+                            break;
+                        case 'delivered':
+                            statusBadge = '<span class="badge bg-success">Đã giao</span>';
+                            break;
+                        case 'cancelled':
+                            statusBadge = '<span class="badge bg-danger">Đã hủy</span>';
+                            break;
+                        default:
+                            statusBadge = `<span class="badge bg-secondary">${order.status}</span>`;
+                    }
+
+                    tr.innerHTML = `
+                        <td class="font-monospace small">${order.id.substring(0, 8)}...</td>
+                        <td>${order.customer_name || 'Khách vãng lai'}</td>
+                        <td>${date}</td>
+                        <td class="text-danger fw-bold">${total}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <a href="admin-order-detail.html?id=${order.id}" class="btn btn-sm btn-outline-primary">
+                                <i class="fa-solid fa-eye me-1"></i> Xem
+                            </a>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
             try {
                 const response = await fetch(`${CONFIG.API_BASE_URL}/admin/orders`, {
                     headers: {
@@ -266,49 +311,27 @@
 
                 if (response.ok) {
                     const orders = await response.json();
-                    const tbody = document.getElementById('ordersTableBody');
-                    tbody.innerHTML = '';
 
-                    orders.forEach(order => {
-                        const tr = document.createElement('tr');
-                        const total = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.total_amount);
-                        const date = new Date(order.order_date).toLocaleDateString('vi-VN');
+                    if (orders.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="6" class="text-center">Chưa có đơn hàng nào.</td></tr>';
+                        return;
+                    }
 
-                        let statusBadge = '';
-                        switch (order.status) {
-                            case 'pending':
-                                statusBadge = '<span class="badge bg-warning text-dark">Chờ xử lý</span>';
-                                break;
-                            case 'processing':
-                                statusBadge = '<span class="badge bg-info text-dark">Đang xử lý</span>';
-                                break;
-                            case 'shipped':
-                                statusBadge = '<span class="badge bg-primary">Đang giao</span>';
-                                break;
-                            case 'delivered':
-                                statusBadge = '<span class="badge bg-success">Đã giao</span>';
-                                break;
-                            case 'cancelled':
-                                statusBadge = '<span class="badge bg-danger">Đã hủy</span>';
-                                break;
-                            default:
-                                statusBadge = `<span class="badge bg-secondary">${order.status}</span>`;
-                        }
+                    // Initialize or update pagination
+                    if (!ordersPagination) {
+                        ordersPagination = new Pagination({
+                            items: orders,
+                            itemsPerPage: 8, // 8 orders per page
+                            containerSelector: '.table-responsive',
+                            paginationSelector: '#paginationContainer',
+                            renderCallback: renderOrders
+                        });
+                    } else {
+                        ordersPagination.updateItems(orders);
+                    }
 
-                        tr.innerHTML = `
-                            <td class="font-monospace small">${order.id.substring(0, 8)}...</td>
-                            <td>${order.customer_name || 'Khách vãng lai'}</td>
-                            <td>${date}</td>
-                            <td class="text-danger fw-bold">${total}</td>
-                            <td>${statusBadge}</td>
-                            <td>
-                                <a href="admin-order-detail.html?id=${order.id}" class="btn btn-sm btn-outline-primary">
-                                    <i class="fa-solid fa-eye me-1"></i> Xem
-                                </a>
-                            </td>
-                        `;
-                        tbody.appendChild(tr);
-                    });
+                    // Render first page
+                    ordersPagination.render();
                 } else {
                     console.error('Failed to fetch orders');
                     if (response.status === 401 || response.status === 403) {
@@ -318,6 +341,7 @@
                 }
             } catch (error) {
                 console.error('Error:', error);
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">Có lỗi xảy ra khi tải dữ liệu.</td></tr>';
             }
         });
     </script>

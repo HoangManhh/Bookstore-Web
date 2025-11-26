@@ -190,6 +190,11 @@
                                 </table>
                             </div> <!-- Hết table-responsive -->
 
+                            <!-- Phân trang -->
+                            <nav aria-label="Page navigation" class="mt-4" id="paginationContainer">
+                                <!-- Pagination will be rendered dynamically -->
+                            </nav>
+
                         </div>
                     </div>
                 </div>
@@ -229,8 +234,10 @@
         crossorigin="anonymous"></script>
 
     <script src="js/config.js"></script>
+    <script src="js/pagination.js"></script>
     <script>
         let deletePublisherId = null;
+        let publishersPagination = null;
 
         document.addEventListener('DOMContentLoaded', async function () {
             const token = localStorage.getItem('token');
@@ -243,6 +250,34 @@
             const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
             const confirmDeleteBtn = document.querySelector('#deleteConfirmModal .btn-danger');
 
+            // Render publishers function
+            function renderPublishers(publishers) {
+                tableBody.innerHTML = '';
+
+                if (publishers.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="3" class="text-center">Chưa có nhà xuất bản nào.</td></tr>';
+                    return;
+                }
+
+                publishers.forEach(pub => {
+                    const row = `
+                        <tr>
+                            <td class="fw-bold">${pub.name}</td>
+                            <td>${pub.address || ''}</td>
+                            <td>
+                                <a href="admin-publisher-edit.html?id=${pub.id}" class="btn btn-sm btn-outline-warning">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                                <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${pub.id}')">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    tableBody.innerHTML += row;
+                });
+            }
+
             async function fetchPublishers() {
                 try {
                     const response = await fetch(`${CONFIG.API_BASE_URL}/admin/publishers`, {
@@ -253,30 +288,27 @@
 
                     if (response.ok) {
                         const publishers = await response.json();
-                        tableBody.innerHTML = '';
 
                         if (publishers.length === 0) {
                             tableBody.innerHTML = '<tr><td colspan="3" class="text-center">Chưa có nhà xuất bản nào.</td></tr>';
                             return;
                         }
 
-                        publishers.forEach(pub => {
-                            const row = `
-                                <tr>
-                                    <td class="fw-bold">${pub.name}</td>
-                                    <td>${pub.address || ''}</td>
-                                    <td>
-                                        <a href="admin-publisher-edit.html?id=${pub.id}" class="btn btn-sm btn-outline-warning">
-                                            <i class="fa-solid fa-pen-to-square"></i>
-                                        </a>
-                                        <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${pub.id}')">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            `;
-                            tableBody.innerHTML += row;
-                        });
+                        // Initialize or update pagination
+                        if (!publishersPagination) {
+                            publishersPagination = new Pagination({
+                                items: publishers,
+                                itemsPerPage: 10, // 10 publishers per page
+                                containerSelector: '.table-responsive',
+                                paginationSelector: '#paginationContainer',
+                                renderCallback: renderPublishers
+                            });
+                        } else {
+                            publishersPagination.updateItems(publishers);
+                        }
+
+                        // Render first page
+                        publishersPagination.render();
                     } else {
                         console.error('Failed to fetch publishers');
                         tableBody.innerHTML = '<tr><td colspan="3" class="text-center text-danger">Lỗi khi tải dữ liệu.</td></tr>';

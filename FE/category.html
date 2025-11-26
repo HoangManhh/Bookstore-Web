@@ -47,7 +47,8 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
-                        <li class="breadcrumb-item active" aria-current="page" id="breadcrumbCategory">Danh mục</li>
+                        <li class="breadcrumb-item active" aria-current="page" id="breadcrumbCategory">
+                            Danh mục</li>
                     </ol>
                 </nav>
                 <!-- [CSDL] Lấy từ Categories.name -->
@@ -182,26 +183,15 @@
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
-                </div> <!-- Hết .row (lưới sản phẩm) -->
+                </div>
 
-                <!-- Phân trang (Pagination) -->
-                <nav aria-label="Page navigation" class="mt-5">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
-                        </li>
-                        <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Sau</a>
-                        </li>
-                    </ul>
-                </nav>
+                <!-- Pagination controls -->
+                <div class="d-flex justify-content-center mt-4" id="paginationContainer">
+                    <!-- Pagination will be rendered here -->
+                </div>
 
             </div>
         </div>
-
     </main>
 
     <!-- 5. Footer - Lấy từ index.html -->
@@ -216,6 +206,7 @@
     <script src="js/include.js"></script>
     <script src="js/config.js"></script>
     <script src="js/cart.js"></script>
+    <script src="js/pagination.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
             const urlParams = new URLSearchParams(window.location.search);
@@ -296,15 +287,46 @@
                 publisherFilterContainer.innerHTML = '<p class="text-muted">Không có NXB</p>';
             }
 
+            let productsPagination = null;
+
+            // Render products function
+            function renderProducts(products) {
+                productContainer.innerHTML = '';
+
+                if (products.length === 0) {
+                    productContainer.innerHTML = '<p class="text-center w-100">Không tìm thấy sản phẩm nào phù hợp.</p>';
+                    return;
+                }
+
+                products.forEach(product => {
+                    const productCard = `
+                                <div class="col">
+                                    <div class="card h-100 shadow-sm product-card">
+                                        <img src="${product.image_url || 'https://placehold.co/300x400?text=No+Image'}" class="card-img-top" alt="${product.title}">
+                                        <div class="card-body d-flex flex-column">
+                                            <h5 class="card-title text-truncate" title="${product.title}">${product.title}</h5>
+                                            <h6 class="card-subtitle mb-2 text-danger mt-auto pt-2">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}</h6>
+                                            <a href="product-detail.html?id=${product.id}" class="btn btn-primary mt-2">Xem chi tiết</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                    productContainer.insertAdjacentHTML('beforeend', productCard);
+                });
+            }
+
             // 4. Fetch Products Function
             async function fetchProducts() {
-                productContainer.innerHTML = `
+                // Show loading state only if pagination is not initialized or we are reloading everything
+                if (!productsPagination) {
+                    productContainer.innerHTML = `
                     <div class="col-12 text-center">
                         <div class="spinner-border text-primary" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
                 `;
+                }
 
                 try {
                     let url = `${CONFIG.API_BASE_URL}/products/?`;
@@ -325,9 +347,7 @@
                         }
                     }
 
-                    // Author Filter (Single selection for now as API supports single author_id, or we can update API to support list)
-                    // Current API implementation supports single author_id. Let's take the first checked one or update API.
-                    // For simplicity, let's just take the first one found.
+                    // Author Filter
                     const selectedAuthor = document.querySelector('.author-filter:checked');
                     if (selectedAuthor) {
                         params.append('author_id', selectedAuthor.value);
@@ -342,28 +362,30 @@
                     const response = await fetch(url + params.toString());
                     if (response.ok) {
                         const products = await response.json();
-                        productContainer.innerHTML = '';
 
                         if (products.length === 0) {
                             productContainer.innerHTML = '<p class="text-center w-100">Không tìm thấy sản phẩm nào phù hợp.</p>';
+                            // Clear pagination if no products
+                            const paginationContainer = document.getElementById('paginationContainer');
+                            if (paginationContainer) paginationContainer.innerHTML = '';
                             return;
                         }
 
-                        products.forEach(product => {
-                            const productCard = `
-                                <div class="col">
-                                    <div class="card h-100 shadow-sm product-card">
-                                        <img src="${product.image_url || 'https://placehold.co/300x400?text=No+Image'}" class="card-img-top" alt="${product.title}">
-                                        <div class="card-body d-flex flex-column">
-                                            <h5 class="card-title text-truncate" title="${product.title}">${product.title}</h5>
-                                            <h6 class="card-subtitle mb-2 text-danger mt-auto pt-2">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}</h6>
-                                            <a href="product-detail.html?id=${product.id}" class="btn btn-primary mt-2">Xem chi tiết</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                            productContainer.insertAdjacentHTML('beforeend', productCard);
-                        });
+                        // Initialize or update pagination
+                        if (!productsPagination) {
+                            productsPagination = new Pagination({
+                                items: products,
+                                itemsPerPage: 9, // 9 products per page (3x3 grid)
+                                containerSelector: '#categoryProducts', // Note: This selector is used for scrolling to top, but renderCallback handles actual rendering
+                                paginationSelector: '#paginationContainer',
+                                renderCallback: renderProducts
+                            });
+                        } else {
+                            productsPagination.updateItems(products);
+                        }
+
+                        // Render first page
+                        productsPagination.render();
                     }
                 } catch (error) {
                     console.error('Error loading products:', error);

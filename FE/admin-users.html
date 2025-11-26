@@ -242,19 +242,8 @@
                             </div> <!-- Hết table-responsive -->
 
                             <!-- Phân trang -->
-                            <nav aria-label="Page navigation" class="mt-4">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Trước</a>
-                                    </li>
-                                    <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Sau</a>
-                                    </li>
-                                </ul>
+                            <nav aria-label="Page navigation" class="mt-4" id="paginationContainer">
+                                <!-- Pagination will be rendered dynamically -->
                             </nav>
 
                         </div>
@@ -357,10 +346,12 @@
         xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script src="js/config.js"></script>
+    <script src="js/pagination.js"></script>
     <script>
         let allUsers = [];
         let userToBanId = null;
         let userToUnbanId = null;
+        let usersPagination = null;
 
         document.addEventListener('DOMContentLoaded', async function () {
             await loadUsers();
@@ -382,7 +373,22 @@
 
                 if (response.ok) {
                     allUsers = await response.json();
-                    renderUsers(allUsers);
+
+                    // Initialize or update pagination
+                    if (!usersPagination) {
+                        usersPagination = new Pagination({
+                            items: allUsers,
+                            itemsPerPage: 10, // 10 users per page
+                            containerSelector: '.table-responsive',
+                            paginationSelector: '#paginationContainer',
+                            renderCallback: renderUsers
+                        });
+                    } else {
+                        usersPagination.updateItems(allUsers);
+                    }
+
+                    // Render first page
+                    usersPagination.render();
                 } else {
                     alert('Không thể tải danh sách người dùng. Vui lòng đăng nhập lại.');
                     window.location.href = 'login.html';
