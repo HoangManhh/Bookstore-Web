@@ -1,10 +1,11 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="z-index: 1100;">
     <div class="container">
         <a class="navbar-brand fw-bold" href="index.html">
             <i class="fa-solid "></i>
             BookStore
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+            aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="mainNav">
@@ -13,21 +14,20 @@
                     <a class="nav-link active" aria-current="page" href="index.html">Trang chủ</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
                         Danh mục
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                        <!-- [CSDL] Lấy từ bảng Categories -->
-                        <li><a class="dropdown-item" href="category.html">Tiểu thuyết</a></li>
-                        <li><a class="dropdown-item" href="category.html">Khoa học Viễn tưởng</a></li>
-                        <li><a class="dropdown-item" href="category.html">Kinh doanh</a></li>
-                        <li><a class="dropdown-item" href="category.html">Sách thiếu nhi</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="categoriesDropdown" id="navbarCategories">
+                        <!-- Categories will be populated here -->
+                        <li><span class="dropdown-item">Loading...</span></li>
                     </ul>
                 </li>
             </ul>
             <!-- Thanh tìm kiếm -->
             <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Tìm kiếm sách, tác giả..." aria-label="Search">
+                <input class="form-control me-2" type="search" placeholder="Tìm kiếm sách, tác giả..."
+                    aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Tìm</button>
             </form>
             <!-- Giỏ hàng và Tài khoản -->
@@ -35,13 +35,39 @@
                 <li class="nav-item">
                     <a class="nav-link" href="cart.html">
                         <i class="fa-solid fa-cart-shopping"></i>
-                        <span class="badge rounded-pill bg-danger">3</span>
+                        <span class="badge rounded-pill bg-danger" id="cartBadge" style="display: none;">0</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                <!-- Guest: Show Login -->
+                <li class="nav-item" id="nav-guest">
                     <a class="nav-link" href="login.html">
                         <i class="fa-solid fa-user"></i> Tài khoản
                     </a>
+                </li>
+
+                <!-- User: Show Dropdown (Hidden by default) -->
+                <li class="nav-item dropdown d-none" id="nav-user">
+                    <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user"></i> <span id="nav-username">User</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="accountDropdown">
+                        <li><a class="dropdown-item" href="account.html">
+                                <i class="fa-solid fa-user-pen me-2"></i> Thông tin tài khoản
+                            </a></li>
+                        <li><a class="dropdown-item" href="orders.html">
+                                <i class="fa-solid fa-file-invoice me-2"></i> Lịch sử đơn hàng
+                            </a></li>
+                        <li><a class="dropdown-item" href="password.html">
+                                <i class="fa-solid fa-key me-2"></i> Đổi mật khẩu
+                            </a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item text-danger" href="#" id="logoutBtn">
+                                <i class="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất
+                            </a></li>
+                    </ul>
                 </li>
             </ul>
         </div>

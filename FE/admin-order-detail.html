@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BookStore - Chi tiết Đơn hàng</title>
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        xintegrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <!-- CSS Tùy chỉnh (Lấy từ admin-dashboard.html) -->
     <style>
         body {
@@ -16,16 +20,16 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
+
         /* Sidebar */
         #sidebar-wrapper {
             min-height: 100vh;
             width: 250px;
             background-color: #212529;
             transition: margin .25s ease-out;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         #sidebar-wrapper .sidebar-heading {
             padding: 1.5rem 1.25rem;
             font-size: 1.5rem;
@@ -51,7 +55,7 @@
             color: #ffffff;
             background-color: #343a40;
         }
-        
+
         #sidebar-wrapper .list-group-item.active {
             color: #ffffff;
             background-color: #0d6efd;
@@ -70,11 +74,12 @@
         .admin-header-nav {
             border-bottom: 1px solid #dee2e6;
         }
-        
+
         /* Cột bên phải dính lại */
         .sticky-aside {
             position: sticky;
-            top: 70px; /* 56px navbar + 14px padding */
+            top: 70px;
+            /* 56px navbar + 14px padding */
         }
 
         .order-item-img {
@@ -82,9 +87,9 @@
             height: 80px;
             object-fit: cover;
         }
-
     </style>
 </head>
+
 <body>
 
     <!-- 1. Sidebar (Menu Quản trị) -->
@@ -95,8 +100,8 @@
                 <i class="fa-solid fa-book-shield me-2"></i>
                 BookStore<span class="text-primary">Admin</span>
             </div>
-            
-           <!-- Menu -->
+
+            <!-- Menu -->
             <div class="list-group list-group-flush">
                 <a href="admin-dashboard.html" class="list-group-item list-group-item-action">
                     <i class="fa-solid fa-chart-line fa-fw me-2"></i> Tổng quan
@@ -124,7 +129,7 @@
 
             <!-- Nút Đăng xuất -->
             <div class="mt-auto p-3 border-top" style="border-color: #495057 !important;">
-                <a href="index.html" class="btn btn-outline-danger w-100">
+                <a href="#" class="btn btn-outline-danger w-100" id="sidebarLogoutBtn">
                     <i class="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất
                 </a>
             </div>
@@ -133,7 +138,7 @@
 
     <!-- 2. Page Content Wrapper (Nội dung chính) -->
     <div id="page-content-wrapper">
-        
+
         <!-- Header của Admin (Top Navbar) -->
         <nav class="navbar navbar-expand-lg navbar-light bg-white admin-header-nav shadow-sm">
             <div class="container-fluid">
@@ -143,12 +148,13 @@
                 <h4 class="mb-0 d-none d-lg-block">Chi tiết Đơn hàng</h4>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="adminAccountDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="adminAccountDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="fa-solid fa-user-shield me-2"></i> Admin
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminAccountDropdown">
                             <li><a class="dropdown-item" href="#">Cài đặt</a></li>
-                            <li><a class="dropdown-item text-danger" href="index.html">Đăng xuất</a></li>
+                            <li><a class="dropdown-item text-danger" href="#" id="topbarLogoutBtn">Đăng xuất</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -163,7 +169,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="admin-dashboard.html">Admin</a></li>
                     <li class="breadcrumb-item"><a href="admin-orders.html">Quản lý Đơn hàng</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Chi tiết #f2b9a1d5...</li>
+                    <li class="breadcrumb-item active" aria-current="page" id="breadcrumbOrderId">Chi tiết Đơn hàng</li>
                 </ol>
             </nav>
 
@@ -189,18 +195,8 @@
                                             <th>Tổng phụ</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><img src="https://placehold.co/60x80/f8f9fa/6c757d?text=Sach+D" class="order-item-img rounded" alt="Sách D"></td>
-                                            <td>
-                                                <h6 class="mb-0">Dấu ấn D</h6>
-                                                <small class="text-muted">Tác giả: Phạm Thị D</small>
-                                            </td>
-                                            <td>180.000đ</td>
-                                            <td>x 1</td>
-                                            <td class="fw-bold">180.000đ</td>
-                                        </tr>
-                                        <!-- Thêm sản phẩm khác nếu có -->
+                                    <tbody id="orderItemsBody">
+                                        <!-- Data loaded via JS -->
                                     </tbody>
                                 </table>
                             </div>
@@ -217,15 +213,18 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <h6>Thông tin Khách hàng</h6>
-                                    <p class="mb-1"><strong>Tên:</strong> Trần Thị B</p>
-                                    <p class="mb-1"><strong>Email:</strong> b@gmail.com</p>
-                                    <p class="mb-1"><strong>SĐT (Tài khoản):</strong> 0987654321</p>
+                                    <p class="mb-1"><strong>Tên:</strong> <span id="customerName">...</span></p>
+                                    <p class="mb-1"><strong>Email:</strong> <span id="customerEmail">...</span></p>
+                                    <p class="mb-1"><strong>SĐT (Tài khoản):</strong> <span
+                                            id="customerPhone">...</span></p>
                                 </div>
                                 <div class="col-md-6">
                                     <h6>Thông tin Giao hàng</h6>
-                                    <p class="mb-1"><strong>Địa chỉ:</strong> 150 Đường XYZ, Quận 3, TP.HCM</p>
-                                    <p class="mb-1"><strong>SĐT (Giao hàng):</strong> 0987654321</p>
-                                    <p class="mb-1"><strong>Phương thức TT:</strong> Thanh toán khi nhận hàng (COD)</p>
+                                    <p class="mb-1"><strong>Địa chỉ:</strong> <span id="shippingAddress">...</span></p>
+                                    <p class="mb-1"><strong>SĐT (Giao hàng):</strong> <span
+                                            id="shippingPhone">...</span></p>
+                                    <p class="mb-1"><strong>Phương thức TT:</strong> <span id="paymentMethod">...</span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -236,7 +235,7 @@
                 <!-- Cột bên phải: Thay đổi trạng thái -->
                 <div class="col-lg-4">
                     <div class="sticky-aside">
-                        
+
                         <!-- Card Thay đổi Trạng thái (Quan trọng nhất) -->
                         <div class="card shadow-sm border-0 mb-4">
                             <div class="card-header bg-white py-3">
@@ -244,25 +243,26 @@
                             </div>
                             <div class="card-body">
                                 <p>Trạng thái hiện tại:</p>
-                                <!-- [CSDL] Lấy từ Orders.status -->
-                                <h4 class="mb-3"><span class="badge bg-warning text-dark">Chờ xử lý</span></h4>
+                                <h4 class="mb-3" id="currentStatusBadge"><span class="badge bg-secondary">...</span>
+                                </h4>
 
                                 <hr>
 
-                                <!-- [CSDL] Đây là form để UPDATE Orders.status -->
-                                <form>
+                                <form id="updateStatusForm">
                                     <div class="mb-3">
                                         <label for="orderStatus" class="form-label">Thay đổi trạng thái:</label>
                                         <select class="form-select" id="orderStatus">
-                                            <option value="pending" selected>Chờ xử lý</option>
-                                            <option value="processing">Đang giao</option>
+                                            <option value="pending">Chờ xử lý</option>
+                                            <option value="processing">Đang xử lý</option>
+                                            <option value="shipped">Đang giao</option>
                                             <option value="delivered">Đã giao</option>
                                             <option value="cancelled">Đã hủy</option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="adminNotes" class="form-label">Ghi chú (Nội bộ):</label>
-                                        <textarea class="form-control" id="adminNotes" rows="3" placeholder="Ví dụ: Đã gọi khách xác nhận..."></textarea>
+                                        <textarea class="form-control" id="adminNotes" rows="3"
+                                            placeholder="Ví dụ: Đã gọi khách xác nhận..."></textarea>
                                     </div>
                                     <div class="d-grid">
                                         <button type="submit" class="btn btn-primary">
@@ -277,19 +277,22 @@
                         <div class="card shadow-sm border-0">
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                                         Tạm tính
-                                        <span>180.000đ</span>
+                                        <span id="subTotal">...</span>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
                                         Phí vận chuyển
                                         <span>Miễn phí</span>
                                     </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                    <li
+                                        class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                                         <div>
                                             <strong class="fs-5">Tổng cộng</strong>
                                         </div>
-                                        <span class="fw-bold fs-5 text-danger">180.000đ</span>
+                                        <span class="fw-bold fs-5 text-danger" id="totalAmount">...</span>
                                     </li>
                                 </ul>
                             </div>
@@ -304,7 +307,147 @@
 
 
     <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <script src="js/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Logout Logic
+            function handleLogout(e) {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            }
+
+            const sidebarLogoutBtn = document.getElementById('sidebarLogoutBtn');
+            if (sidebarLogoutBtn) sidebarLogoutBtn.addEventListener('click', handleLogout);
+
+            const topbarLogoutBtn = document.getElementById('topbarLogoutBtn');
+            if (topbarLogoutBtn) topbarLogoutBtn.addEventListener('click', handleLogout);
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('id');
+
+            if (!orderId) {
+                alert('Không tìm thấy mã đơn hàng!');
+                window.location.href = 'admin-orders.html';
+                return;
+            }
+
+            document.getElementById('breadcrumbOrderId').textContent = `Chi tiết #${orderId.substring(0, 8)}...`;
+
+            // Fetch order details
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/admin/orders/${orderId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const order = await response.json();
+                    renderOrderDetails(order);
+                } else {
+                    console.error('Failed to fetch order details');
+                    alert('Không thể tải thông tin đơn hàng.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+
+            // Handle status update
+            document.getElementById('updateStatusForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+                const newStatus = document.getElementById('orderStatus').value;
+                const adminNotes = document.getElementById('adminNotes').value;
+
+                try {
+                    const response = await fetch(`${CONFIG.API_BASE_URL}/admin/orders/${orderId}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            status: newStatus,
+                            admin_note: adminNotes
+                        })
+                    });
+
+                    if (response.ok) {
+                        alert('Cập nhật trạng thái thành công!');
+                        location.reload();
+                    } else {
+                        alert('Cập nhật thất bại.');
+                    }
+                } catch (error) {
+                    console.error('Error updating status:', error);
+                    alert('Đã xảy ra lỗi khi cập nhật.');
+                }
+            });
+        });
+
+        function renderOrderDetails(order) {
+            // Customer Info
+            document.getElementById('customerName').textContent = order.customer_name || 'Khách vãng lai';
+            document.getElementById('customerEmail').textContent = order.customer_email || 'N/A';
+            document.getElementById('customerPhone').textContent = order.customer_phone || 'N/A';
+
+            // Shipping Info
+            document.getElementById('shippingAddress').textContent = order.shipping_address || 'N/A';
+            document.getElementById('shippingPhone').textContent = order.shipping_phone || 'N/A';
+            document.getElementById('paymentMethod').textContent = order.payment_method || 'COD';
+
+            // Status
+            const statusBadge = getStatusBadge(order.status);
+            document.getElementById('currentStatusBadge').innerHTML = statusBadge;
+            document.getElementById('orderStatus').value = order.status;
+
+            // Order Items
+            const tbody = document.getElementById('orderItemsBody');
+            tbody.innerHTML = '';
+            order.items.forEach(item => {
+                const tr = document.createElement('tr');
+                const price = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price_at_purchase);
+                const subtotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price_at_purchase * item.quantity);
+
+                tr.innerHTML = `
+                    <td><img src="${item.product_image || 'https://placehold.co/60x80'}" class="order-item-img rounded" alt="${item.product_title}"></td>
+                    <td>
+                        <h6 class="mb-0">${item.product_title}</h6>
+                    </td>
+                    <td>${price}</td>
+                    <td>x ${item.quantity}</td>
+                    <td class="fw-bold">${subtotal}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Totals
+            const total = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(order.total_amount);
+            document.getElementById('subTotal').textContent = total; // Assuming no tax/shipping for now
+            document.getElementById('totalAmount').textContent = total;
+        }
+
+        function getStatusBadge(status) {
+            switch (status) {
+                case 'pending': return '<span class="badge bg-warning text-dark">Chờ xử lý</span>';
+                case 'processing': return '<span class="badge bg-info text-dark">Đang xử lý</span>';
+                case 'shipped': return '<span class="badge bg-primary">Đang giao</span>';
+                case 'delivered': return '<span class="badge bg-success">Đã giao</span>';
+                case 'cancelled': return '<span class="badge bg-danger">Đã hủy</span>';
+                default: return `<span class="badge bg-secondary">${status}</span>`;
+            }
+        }
+    </script>
 </body>
+
 </html>

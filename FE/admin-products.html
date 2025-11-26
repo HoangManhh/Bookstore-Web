@@ -124,7 +124,7 @@
 
             <!-- Nút Đăng xuất -->
             <div class="mt-auto p-3 border-top" style="border-color: #495057 !important;">
-                <a href="index.html" class="btn btn-outline-danger w-100">
+                <a href="#" class="btn btn-outline-danger w-100" id="sidebarLogoutBtn">
                     <i class="fa-solid fa-right-from-bracket me-2"></i> Đăng xuất
                 </a>
             </div>
@@ -149,7 +149,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="adminAccountDropdown">
                             <li><a class="dropdown-item" href="#">Cài đặt</a></li>
-                            <li><a class="dropdown-item text-danger" href="index.html">Đăng xuất</a></li>
+                            <li><a class="dropdown-item text-danger" href="#" id="topbarLogoutBtn">Đăng xuất</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -194,6 +194,7 @@
                                             <th scope="col">Tên sản phẩm</th>
                                             <th scope="col">Tác giả</th>
                                             <th scope="col">Danh mục</th>
+                                            <th scope="col">Nhà xuất bản</th>
                                             <th scope="col">Giá</th>
                                             <th scope="col">Tồn kho</th>
                                             <th scope="col" style="width: 100px;">Hành động</th>
@@ -265,6 +266,19 @@
                 return;
             }
 
+            // Logout Logic
+            function handleLogout(e) {
+                e.preventDefault();
+                localStorage.removeItem('token');
+                window.location.href = 'login.html';
+            }
+
+            const sidebarLogoutBtn = document.getElementById('sidebarLogoutBtn');
+            if (sidebarLogoutBtn) sidebarLogoutBtn.addEventListener('click', handleLogout);
+
+            const topbarLogoutBtn = document.getElementById('topbarLogoutBtn');
+            if (topbarLogoutBtn) topbarLogoutBtn.addEventListener('click', handleLogout);
+
             try {
                 const response = await fetch(`${CONFIG.API_BASE_URL}/admin/products`, {
                     headers: {
@@ -291,8 +305,9 @@
                                 <img src="${imageUrl}" class="product-table-img" alt="${product.title}">
                             </td>
                             <td class="fw-bold">${product.title}</td>
-                            <td>${product.author_id || 'N/A'}</td> <!-- Cần join bảng Author để lấy tên -->
-                            <td>${product.category_id || 'N/A'}</td> <!-- Cần join bảng Category để lấy tên -->
+                            <td>${product.author_name || 'N/A'}</td>
+                            <td>${product.category_name || 'N/A'}</td>
+                            <td>${product.publisher_name || 'N/A'}</td>
                             <td class="text-danger">${price}</td>
                             <td>${stockBadge}</td>
                             <td>

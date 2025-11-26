@@ -70,54 +70,12 @@
         <section class="my-5">
             <h2 class="text-center mb-4">Danh Mục Nổi Bật</h2>
             <!-- [CSDL] Lấy từ bảng Categories (name, slug) -->
-            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
-                <div class="col">
-                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
-                        <div class_name="card-body p-3">
-                            <i class="fa-solid fa-wand-magic-sparkles fa-2x text-primary mb-2"></i>
-                            <h6 class="card-title mb-0">Tiểu thuyết</h6>
-                        </div>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
-                        <div class="card-body p-3">
-                            <i class="fa-solid fa-rocket fa-2x text-success mb-2"></i>
-                            <h6 class="card-title mb-0">Khoa học</h6>
-                        </div>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
-                        <div class="card-body p-3">
-                            <i class="fa-solid fa-chart-line fa-2x text-danger mb-2"></i>
-                            <h6 class="card-title mb-0">Kinh doanh</h6>
-                        </div>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
-                        <div class="card-body p-3">
-                            <i class="fa-solid fa-child fa-2x text-warning mb-2"></i>
-                            <h6 class="card-title mb-0">Thiếu nhi</h6>
-                        </div>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
-                        <div class="card-body p-3">
-                            <i class="fa-solid fa-brain fa-2x text-info mb-2"></i>
-                            <h6 class="card-title mb-0">Kỹ năng sống</h6>
-                        </div>
-                    </a>
-                </div>
-                <div class="col">
-                    <a href="category.html" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
-                        <div class="card-body p-3">
-                            <i class="fa-solid fa-landmark fa-2x text-secondary mb-2"></i>
-                            <h6 class="card-title mb-0">Văn học</h6>
-                        </div>
-                    </a>
+            <div id="featuredCategories" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3">
+                <!-- Categories will be populated here -->
+                <div class="col-12 text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -126,113 +84,13 @@
         <section class="my-5">
             <h2 class="text-center mb-4">Sách Mới Phát Hành</h2>
             <!-- [CSDL] Lấy từ bảng Products (JOIN Authors) -->
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-
-                <!-- Sản phẩm mẫu 1 -->
-                <div class="col">
-                    <div class="card h-100 shadow-sm product-card">
-                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+1"
-                            class="card-img-top" alt="Bìa sách 1">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Tên sách A</h5>
-                            <p class="card-text text-muted mb-2">Tác giả: Nguyễn Văn A</p>
-                            <h6 class="card-subtitle mb-2 text-danger">120.000đ</h6>
-                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
-                        </div>
+            <div id="newProducts" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                <!-- Products will be populated here -->
+                <div class="col-12 text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
-
-                <!-- Sản phẩm mẫu 2 -->
-                <div class="col">
-                    <div class="card h-100 shadow-sm product-card">
-                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+2"
-                            class="card-img-top" alt="Bìa sách 2">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Cuốn sách B</h5>
-                            <p class="card-text text-muted mb-2">Tác giả: Trần Thị B</p>
-                            <h6 class="card-subtitle mb-2 text-danger">99.000đ</h6>
-                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sản phẩm mẫu 3 -->
-                <div class="col">
-                    <div class="card h-100 shadow-sm product-card">
-                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+3"
-                            class="card-img-top" alt="Bìa sách 3">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Hành trình C</h5>
-                            <p class="card-text text-muted mb-2">Tác giả: Lê Văn C</p>
-                            <h6 class="card-subtitle mb-2 text-danger">250.000đ</h6>
-                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Sản phẩm mẫu 4 -->
-                <div class="col">
-                    <div class="card h-100 shadow-sm product-card">
-                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+4"
-                            class="card-img-top" alt="Bìa sách 4">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Dấu ấn D</h5>
-                            <p class="card-text text-muted mb-2">Tác giả: Phạm Thị D</p>
-                            <h6 class="card-subtitle mb-2 text-danger">180.000đ</h6>
-                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Thêm 4 sản phẩm mẫu nữa để đủ 2 hàng -->
-                <div class="col">
-                    <div class="card h-100 shadow-sm product-card">
-                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+5"
-                            class="card-img-top" alt="Bìa sách 5">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Sách E</h5>
-                            <p class="card-text text-muted mb-2">Tác giả: Tác giả E</p>
-                            <h6 class="card-subtitle mb-2 text-danger">110.000đ</h6>
-                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100 shadow-sm product-card">
-                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+6"
-                            class="card-img-top" alt="Bìa sách 6">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Câu chuyện F</h5>
-                            <p class="card-text text-muted mb-2">Tác giả: Tác giả F</p>
-                            <h6 class="card-subtitle mb-2 text-danger">135.000đ</h6>
-                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100 shadow-sm product-card">
-                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+7"
-                            class="card-img-top" alt="Bìa sách 7">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Bí ẩn G</h5>
-                            <p class="card-text text-muted mb-2">Tác giả: Tác giả G</p>
-                            <h6 class="card-subtitle mb-2 text-danger">190.000đ</h6>
-                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100 shadow-sm product-card">
-                        <img src="https://tse1.mm.bing.net/th/id/OIP.O33HHD9H4Ew_R7Oc_VGwLQHaFG?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3text=Bia+Sach+8"
-                            class="card-img-top" alt="Bìa sách 8">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Tương lai H</h5>
-                            <p class="card-text text-muted mb-2">Tác giả: Tác giả H</p>
-                            <h6 class="card-subtitle mb-2 text-danger">320.000đ</h6>
-                            <a href="product-detail.html" class="btn btn-primary mt-auto">Xem chi tiết</a>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </section>
 
@@ -250,26 +108,70 @@
     <!-- Script để tải các thành phần dùng chung -->
     <script src="js/include.js"></script>
     <script src="js/config.js"></script>
+    <script src="js/cart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
-            const productContainer = document.querySelector('.row.row-cols-1.row-cols-sm-2.row-cols-md-3.row-cols-lg-4.g-4');
+            const productContainer = document.getElementById('newProducts');
+            const categoryContainer = document.getElementById('featuredCategories');
 
+            // 1. Fetch Categories
             try {
-                const response = await fetch(`${CONFIG.API_BASE_URL}/products/`);
+                const response = await fetch(`${CONFIG.API_BASE_URL}/products/categories`);
+                if (response.ok) {
+                    const categories = await response.json();
+                    categoryContainer.innerHTML = '';
+
+                    if (categories.length === 0) {
+                        categoryContainer.innerHTML = '<p class="text-center w-100">Chưa có danh mục nào.</p>';
+                    } else {
+                        // Limit to 6 categories for display
+                        categories.slice(0, 6).forEach(cat => {
+                            const catCard = `
+                                <div class="col">
+                                    <a href="category.html?id=${cat.id}" class="card h-100 text-decoration-none text-dark text-center shadow-sm">
+                                        <div class="card-body p-3">
+                                            <i class="fa-solid fa-book fa-2x text-primary mb-2"></i>
+                                            <h6 class="card-title mb-0">${cat.name}</h6>
+                                        </div>
+                                    </a>
+                                </div>
+                            `;
+                            categoryContainer.insertAdjacentHTML('beforeend', catCard);
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading categories:', error);
+                categoryContainer.innerHTML = '<p class="text-center text-danger w-100">Lỗi tải danh mục.</p>';
+            }
+
+            // 2. Fetch Products
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/products/?limit=8`);
                 if (response.ok) {
                     const products = await response.json();
-                    productContainer.innerHTML = ''; // Clear hardcoded products
+                    productContainer.innerHTML = '';
+
+                    if (products.length === 0) {
+                        productContainer.innerHTML = '<p class="text-center w-100">Chưa có sản phẩm nào.</p>';
+                        return;
+                    }
 
                     products.forEach(product => {
                         const productCard = `
                             <div class="col">
                                 <div class="card h-100 shadow-sm product-card">
-                                    <img src="${product.image_url || 'https://placehold.co/300x400?text=No+Image'}" class="card-img-top" alt="${product.name}">
+                                    <img src="${product.image_url || 'https://placehold.co/300x400?text=No+Image'}" class="card-img-top" alt="${product.title}">
                                     <div class="card-body d-flex flex-column">
-                                        <h5 class="card-title">${product.name}</h5>
-                                        <p class="card-text text-muted mb-2">Tác giả: ${product.author || 'Unknown'}</p>
-                                        <h6 class="card-subtitle mb-2 text-danger">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}</h6>
-                                        <a href="product-detail.html?id=${product.id}" class="btn btn-primary mt-auto">Xem chi tiết</a>
+                                        <h5 class="card-title text-truncate" title="${product.title}">${product.title}</h5>
+                                        <!-- Note: Author name is not directly in product list API yet, might need join or separate fetch. 
+                                             For now, we might not show author or show 'Unknown' if not in response. 
+                                             Let's check response model. It has author_id but not name. 
+                                             We should update backend to return author name or fetch it. 
+                                             For now, let's hide author or display generic text. -->
+                                        <!-- <p class="card-text text-muted mb-2">Tác giả: ...</p> -->
+                                        <h6 class="card-subtitle mb-2 text-danger mt-auto pt-2">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price)}</h6>
+                                        <a href="product-detail.html?id=${product.id}" class="btn btn-primary mt-2">Xem chi tiết</a>
                                     </div>
                                 </div>
                             </div>
@@ -279,6 +181,7 @@
                 }
             } catch (error) {
                 console.error('Error loading products:', error);
+                productContainer.innerHTML = '<p class="text-center text-danger w-100">Lỗi tải sản phẩm.</p>';
             }
         });
     </script>

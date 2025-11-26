@@ -1,8 +1,9 @@
 from fastapi import APIRouter, HTTPException, Depends
-from typing import List, Optional
 from pydantic import BaseModel
+from typing import List, Optional
 from mysql_lib.client import MySQLClient
-from mysql_lib.crud import create_order, add_order_item, get_order, list_orders, get_order_items
+import uuid
+from decimal import Decimal
 from services.auth import get_current_user
 
 router = APIRouter(prefix="/orders", tags=["orders"])
@@ -10,73 +11,49 @@ router = APIRouter(prefix="/orders", tags=["orders"])
 class OrderItemCreate(BaseModel):
     product_id: str
     quantity: int
-    price: float
+    price: Decimal
 
 class OrderCreate(BaseModel):
+    # user_id is removed, we get it from token
+    shipping_address: str
+    shipping_phone: str
+    payment_method: str
     items: List[OrderItemCreate]
-    total_amount: float
-    shipping_address: str
-    shipping_phone: Optional[str] = None
-    payment_method: str
 
-class OrderItem(BaseModel):
-    id: str
-    product_id: str
-    quantity: int
-    price_at_purchase: float
-
-class Order(BaseModel):
-    id: str
-    user_id: str
-    status: str
-    total_amount: float
-    shipping_address: str
-    payment_method: str
-    created_at: Optional[str] = None # In DB it is TIMESTAMP, might come as datetime or str
-
-@router.post("/", response_model=dict)
-def create_new_order(order: OrderCreate, current_user: dict = Depends(get_current_user)):
-    user_id = current_user["id"]
+@router.post("/", status_code=201)
+def create_order(order: OrderCreate, current_user: dict = Depends(get_current_user)):
     with MySQLClient() as client:
-        # Start transaction logic could be here, but for now simple sequential inserts
-        order_id = create_order(
-            client,
-            user_id=user_id,
-            total_amount=order.total_amount,
-            shipping_address=order.shipping_address,
-            shipping_phone=order.shipping_phone,
-            payment_method=order.payment_method
-        )
-        
+        # 1. Calculate Total Amount
+        total_amount = sum(item.price * item.quantity for item in order.items)
+
+        # 2. Create Order
+        order_id = str(uuid.uuid4())
+        query_order = """
+            INSERT INTO Orders (id, user_id, total_amount, shipping_address, shipping_phone, payment_method)
+            VALUES (%s, %s, %s, %s, %s, %s)
+        """
+        client.execute_query(query_order, (
+            order_id, 
+            current_user['id'], 
+            total_amount, 
+            order.shipping_address, 
+            order.shipping_phone, 
+            order.payment_method
+        ))
+
+        # 3. Create Order Items
+        query_item = """
+            INSERT INTO OrderItems (id, order_id, product_id, quantity, price_at_purchase)
+            VALUES (%s, %s, %s, %s, %s)
+        """
         for item in order.items:
-            add_order_item(
-                client,
-                order_id=order_id,
-                product_id=item.product_id,
-                quantity=item.quantity,
-                price_at_purchase=item.price
-            )
-            
-        return {"message": "Order created successfully", "order_id": order_id}
+            item_id = str(uuid.uuid4())
+            client.execute_query(query_item, (
+                item_id, 
+                order_id, 
+                item.product_id, 
+                item.quantity, 
+                item.price
+            ))
 
-@router.get("/my-orders", response_model=List[Order])
-def get_my_orders(current_user: dict = Depends(get_current_user)):
-    user_id = current_user["id"]
-    with MySQLClient() as client:
-        # Custom query for user orders
-        query = "SELECT * FROM Orders WHERE user_id = %s ORDER BY order_date DESC"
-        orders = client.fetch_query(query, (user_id,))
-        return orders
-
-@router.get("/{order_id}", response_model=Order)
-def get_order_detail(order_id: str, current_user: dict = Depends(get_current_user)):
-    with MySQLClient() as client:
-        order = get_order(client, order_id)
-        if not order:
-            raise HTTPException(status_code=404, detail="Order not found")
-        
-        # Check ownership or admin
-        if order["user_id"] != current_user["id"] and current_user["role"] != "admin":
-             raise HTTPException(status_code=403, detail="Not authorized to view this order")
-             
-        return order
+        return {"id": order_id, "message": "Order created successfully"}

@@ -29,58 +29,8 @@
 <body class="bg-light">
 
     <!-- 1. Header (Navbar) - Lấy từ index.html -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="z-index: 1021;">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="index.html">
-                <i class="fa-solid fa-book-open-reader"></i>
-                BookStore
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
-                aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="mainNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="index.html">Trang chủ</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Danh mục
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                            <li><a class="dropdown-item" href="category.html">Tiểu thuyết</a></li>
-                            <li><a class="dropdown-item" href="category.html">Khoa học Viễn tưởng</a></li>
-                            <li><a class="dropdown-item" href="category.html">Kinh doanh</a></li>
-                            <li><a class="dropdown-item" href="category.html">Sách thiếu nhi</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <!-- Thanh tìm kiếm -->
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm sách, tác giả..."
-                        aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Tìm</button>
-                </form>
-                <!-- Giỏ hàng và Tài khoản -->
-                <ul class="navbar-nav ms-lg-3 mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="cart.html">
-                            <i class="fa-solid fa-cart-shopping"></i>
-                            <span class="badge rounded-pill bg-danger">0</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <!-- Đánh dấu 'active' cho trang Tài khoản -->
-                        <a class="nav-link active" href="login.html">
-                            <i class="fa-solid fa-user"></i> Tài khoản
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- 1. Header (Navbar) -->
+    <div id="navbar-placeholder"></div>
 
     <!-- Nội dung chính -->
     <main class="container my-5">
@@ -142,58 +92,8 @@
     </main>
 
     <!-- 5. Footer - Lấy từ index.html -->
-    <footer class="bg-dark text-white pt-5 pb-4 mt-auto">
-        <div class="container text-center text-md-start">
-            <div class="row">
-                <!-- Cột 1: Giới thiệu -->
-                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
-                    <h6 class="text-uppercase fw-bold">
-                        <i class="fa-solid fa-book-open-Reader me-2"></i>BookStore
-                    </h6>
-                    <hr class="mb-4 mt-0 d-inline-block mx-auto"
-                        style="width: 60px; background-color: #7c4dff; height: 2px" />
-                    <p>
-                        Mang kiến thức đến mọi nhà. Nơi bạn có thể tìm thấy hàng triệu cuốn sách
-                        thuộc mọi lĩnh vực với giá cả tốt nhất.
-                    </p>
-                </div>
-                <!-- Cột 2: Danh mục -->
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <h6 class="text-uppercase fw-bold">Danh mục</h6>
-                    <hr class="mb-4 mt-0 d-inline-block mx-auto"
-                        style="width: 60px; background-color: #7c4dff; height: 2px" />
-                    <p><a href="category.html" class="text-white text-decoration-none">Tiểu thuyết</a></p>
-                    <p><a href="category.html" class="text-white text-decoration-none">Kinh doanh</a></p>
-                    <p><a href="category.html" class="text-white text-decoration-none">Kỹ năng sống</a></p>
-                    <p><a href="category.html" class="text-white text-decoration-none">Thiếu nhi</a></p>
-                </div>
-                <!-- Cột 3: Liên kết -->
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <h6 class="text-uppercase fw-bold">Hỗ trợ</h6>
-                    <hr class="mb-4 mt-0 d-inline-block mx-auto"
-                        style="width: 60px; background-color: #7c4dff; height: 2px" />
-                    <p><a href="#!" class="text-white text-decoration-none">Về chúng tôi</a></p>
-                    <p><a href="#!" class="text-white text-decoration-none">Chính sách đổi trả</a></p>
-                    <p><a href="#!" class="text-white text-decoration-none">Câu hỏi thường gặp</a></p>
-                    <p><a href="#!" class="text-white text-decoration-none">Liên hệ</a></p>
-                </div>
-                <!-- Cột 4: Liên hệ -->
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                    <h6 class="text-uppercase fw-bold">Liên hệ</h6>
-                    <hr class="mb-4 mt-0 d-inline-block mx-auto"
-                        style="width: 60px; background-color: #7c4dff; height: 2px" />
-                    <p><i class="fas fa-home me-3"></i> 123 Đường ABC, Hà Nội, Việt Nam</p>
-                    <p><i class="fas fa-envelope me-3"></i> info@bookstore.com</p>
-                    <p><i class="fas fa-phone me-3"></i> +84 123 456 789</p>
-                </div>
-            </div>
-        </div>
-        <!-- Copyright -->
-        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-            © 2025 Bản quyền thuộc về:
-            <a class="text-white text-decoration-none fw-bold" href="index.html">BookStore.com</a>
-        </div>
-    </footer>
+    <!-- 5. Footer -->
+    <div id="footer-placeholder"></div>
 
 
     <!-- Bootstrap JS Bundle -->
@@ -219,6 +119,7 @@
         })()
     </script>
     <script src="js/config.js"></script>
+    <script src="js/include.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('loginForm');

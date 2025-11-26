@@ -49,13 +49,54 @@ def get_revenue_stats(
                 SUM(total_amount) as revenue,
                 COUNT(id) as order_count
             FROM Orders
-            WHERE status != 'cancelled'
+            WHERE status = 'delivered'
             GROUP BY time_period
             ORDER BY time_period DESC
             LIMIT 30
         """
         stats = client.fetch_query(query)
         return stats
+
+@router.get("/stats/dashboard")
+def get_dashboard_stats(current_user: dict = Depends(get_current_admin)):
+    with MySQLClient() as client:
+        # 1. Revenue (Current Month)
+        revenue_query = """
+            SELECT SUM(total_amount) as revenue
+            FROM Orders
+            WHERE status = 'delivered' 
+            AND MONTH(order_date) = MONTH(CURRENT_DATE())
+            AND YEAR(order_date) = YEAR(CURRENT_DATE())
+        """
+        revenue_result = client.fetch_one(revenue_query)
+        revenue = revenue_result['revenue'] if revenue_result and revenue_result['revenue'] else 0
+
+        # 2. New Orders (Pending)
+        orders_query = "SELECT COUNT(id) as count FROM Orders WHERE status = 'pending'"
+        orders_result = client.fetch_one(orders_query)
+        new_orders = orders_result['count'] if orders_result else 0
+
+        # 3. Total Products
+        products_query = "SELECT COUNT(id) as count FROM Products"
+        products_result = client.fetch_one(products_query)
+        total_products = products_result['count'] if products_result else 0
+
+        # 4. New Users (Current Month)
+        users_query = """
+            SELECT COUNT(id) as count 
+            FROM Users 
+            WHERE MONTH(created_at) = MONTH(CURRENT_DATE())
+            AND YEAR(created_at) = YEAR(CURRENT_DATE())
+        """
+        users_result = client.fetch_one(users_query)
+        new_users = users_result['count'] if users_result else 0
+
+        return {
+            "revenue": revenue,
+            "new_orders": new_orders,
+            "total_products": total_products,
+            "new_users": new_users
+        }
 
 @router.get("/products")
 def get_all_products(
@@ -64,7 +105,19 @@ def get_all_products(
     current_user: dict = Depends(get_current_admin)
 ):
     with MySQLClient() as client:
-        products = list_products(client, limit=limit, offset=offset)
+        query = """
+            SELECT 
+                p.*, 
+                a.name as author_name, 
+                c.name as category_name, 
+                pub.name as publisher_name
+            FROM Products p
+            LEFT JOIN Authors a ON p.author_id = a.id
+            LEFT JOIN Categories c ON p.category_id = c.id
+            LEFT JOIN Publishers pub ON p.publisher_id = pub.id
+            LIMIT %s OFFSET %s
+        """
+        products = client.fetch_query(query, (limit, offset))
         return products
 
 @router.get("/authors")
@@ -373,3 +426,85 @@ def update_user_info(
         update_user(client, user_id, **update_data)
         
         return {"message": "User updated successfully", "user_id": user_id}
+
+@router.get("/orders")
+def get_all_orders(
+    limit: int = 100,
+    offset: int = 0,
+    current_user: dict = Depends(get_current_admin)
+):
+    with MySQLClient() as client:
+        query = """
+            SELECT 
+                o.*, 
+                u.fullname as customer_name 
+            FROM Orders o
+            LEFT JOIN Users u ON o.user_id = u.id
+            ORDER BY o.order_date DESC
+            LIMIT %s OFFSET %s
+        """
+        orders = client.fetch_query(query, (limit, offset))
+        return orders
+
+@router.get("/orders/{order_id}")
+def get_order_detail(
+    order_id: str,
+    current_user: dict = Depends(get_current_admin)
+):
+    with MySQLClient() as client:
+        # Fetch order and user info
+        order_query = """
+            SELECT 
+                o.*, 
+                u.fullname as customer_name,
+                u.email as customer_email,
+                u.phone_number as customer_phone
+            FROM Orders o
+            LEFT JOIN Users u ON o.user_id = u.id
+            WHERE o.id = %s
+        """
+        order = client.fetch_one(order_query, (order_id,))
+        if not order:
+            raise HTTPException(status_code=404, detail="Order not found")
+
+        # Fetch order items with product info
+        items_query = """
+            SELECT 
+                oi.*,
+                p.title as product_title,
+                p.image_url as product_image,
+                p.author_id as product_author_id
+            FROM OrderItems oi
+            LEFT JOIN Products p ON oi.product_id = p.id
+            WHERE oi.order_id = %s
+        """
+        items = client.fetch_query(items_query, (order_id,))
+        
+        # Add items to order object
+        order['items'] = items
+        return order
+
+class OrderUpdate(BaseModel):
+    status: str
+    admin_note: Optional[str] = None
+
+from mysql_lib import update_order
+
+@router.put("/orders/{order_id}")
+def update_order_status(
+    order_id: str,
+    order_update: OrderUpdate,
+    current_user: dict = Depends(get_current_admin)
+):
+    with MySQLClient() as client:
+        # Verify order exists
+        order_query = "SELECT id FROM Orders WHERE id = %s"
+        if not client.fetch_one(order_query, (order_id,)):
+             raise HTTPException(status_code=404, detail="Order not found")
+
+        # Update status
+        # Note: admin_note is not in the schema yet, so we only update status for now
+        # If admin_note is added to DB, we can update it here.
+        update_order(client, order_id, status=order_update.status)
+        
+        return {"message": "Order updated successfully", "order_id": order_id}
