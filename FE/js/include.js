@@ -76,6 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         console.error('Error fetching user profile:', error);
                         // Invalid token, clear it
                         localStorage.removeItem('token');
+                        if (typeof Cart !== 'undefined') {
+                            Cart.updateBadge();
+                        }
                     });
             }
 

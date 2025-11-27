@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore - Sửa Đơn hàng</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .product-img-small {
+            width: 50px;
+            height: 75px;
+            object-fit: cover;
+        }
+
+        .modal-product-img {
+            width: 60px;
+            height: 90px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <div id="navbar-placeholder"></div>
+
+    <main class="container my-4">
+        <div class="row">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Trang chủ</a></li>
+                        <li class="breadcrumb-item"><a href="orders.html">Lịch sử đơn hàng</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Sửa đơn hàng</li>
+                    </ol>
+                </nav>
+                <h2 class="mb-4">Sửa Đơn hàng <span id="order-id-display" class="text-muted fs-4"></span></h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Danh sách sản phẩm</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="width: 10%">Ảnh</th>
+                                        <th scope="col" style="width: 40%">Sản phẩm</th>
+                                        <th scope="col" style="width: 15%">Đơn giá</th>
+                                        <th scope="col" style="width: 20%">Số lượng</th>
+                                        <th scope="col" style="width: 15%">Thao tác</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="order-items-body">
+                                    <!-- Items will be rendered here -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <button class="btn btn-outline-primary" data-bs-toggle="modal"
+                            data-bs-target="#addProductModal">
+                            <i class="fa-solid fa-plus"></i> Thêm sản phẩm
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Tổng cộng</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3">
+                            <span>Tạm tính:</span>
+                            <span id="temp-total" class="fw-bold">0 ₫</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between mb-4">
+                            <span class="fs-5 fw-bold">Tổng tiền:</span>
+                            <span id="final-total" class="fs-5 fw-bold text-danger">0 ₫</span>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" onclick="saveChanges()">Lưu thay đổi</button>
+                            <a href="orders.html" class="btn btn-outline-secondary">Hủy bỏ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="addProductModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm sản phẩm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" id="product-search-input"
+                            placeholder="Tìm kiếm sản phẩm...">
+                        <button class="btn btn-outline-secondary" type="button" onclick="searchProducts()">Tìm</button>
+                    </div>
+                    <div id="product-search-results" class="list-group">
+                        <!-- Search results will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmModalLabel">Xác nhận</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="confirmModalBody">
+                    Bạn có chắc chắn?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="confirmModalBtn">Đồng ý</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alertModalLabel">Thông báo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="alertModalBody">
+                    Nội dung thông báo
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                        id="alertModalBtn">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="js/config.js"></script>
+    <script src="js/include.js"></script>
+
+    <script>
+        let currentOrder = null;
+        let currentItems = []; // Array of {product_id, title, image_url, price, quantity, stock_quantity}
+
+        document.addEventListener('DOMContentLoaded', async function () {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('id');
+
+            if (!orderId) {
+                showAlert('Lỗi', 'Không tìm thấy mã đơn hàng', () => {
+                    window.location.href = 'orders.html';
+                });
+                return;
+            }
+
+            document.getElementById('order-id-display').textContent = `#${orderId.substring(0, 8)}`;
+
+            // Load Order Details
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/orders/${orderId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    currentOrder = await response.json();
+                    // Map items to our structure
+                    currentItems = currentOrder.items.map(item => ({
+                        product_id: item.product_id,
+                        title: item.title,
+                        image_url: item.image_url,
+                        price: item.current_price, 
+                        display_price: item.price_at_purchase,
+                        quantity: item.quantity,
+                        stock_quantity: item.stock_quantity
+                    }));
+                    renderItems();
+                } else {
+                    showAlert('Lỗi', 'Không thể tải thông tin đơn hàng', () => {
+                        window.location.href = 'orders.html';
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showAlert('Lỗi', 'Lỗi kết nối');
+            }
+
+            // Initial Product Search (Load some products)
+            searchProducts('');
+        });
+
+        function renderItems() {
+            const tbody = document.getElementById('order-items-body');
+            tbody.innerHTML = '';
+            let total = 0;
+
+            currentItems.forEach((item, index) => {
+                const itemTotal = item.display_price * item.quantity;
+                total += itemTotal;
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td><img src="${item.image_url || 'https://via.placeholder.com/50x75'}" class="product-img-small" alt="${item.title}"></td>
+                        <td>${item.title}</td>
+                        <td>${formatCurrency(item.display_price)}</td>
+                        <td>
+                            <input type="number" class="form-control form-control-sm" style="width: 80px" 
+                                value="${item.quantity}" min="1" max="${item.stock_quantity + item.quantity}" 
+                                onchange="updateQuantity(${index}, this.value)">
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-danger btn-sm" onclick="removeItem(${index})">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('temp-total').textContent = formatCurrency(total);
+            document.getElementById('final-total').textContent = formatCurrency(total);
+        }
+
+        function updateQuantity(index, newQty) {
+            newQty = parseInt(newQty);
+            if (newQty < 1) newQty = 1;
+            // Check stock? We have stock_quantity in item, but that's *current* stock.
+            // Total available = current_stock + old_quantity (since we hold old_quantity).
+            // But for simplicity, let's just update and let backend validate final stock.
+            currentItems[index].quantity = newQty;
+            renderItems();
+        }
+
+        function removeItem(index) {
+            showConfirm('Xác nhận xóa', 'Bạn có chắc chắn muốn xóa sản phẩm này khỏi đơn hàng?', () => {
+                currentItems.splice(index, 1);
+                renderItems();
+            });
+        }
+
+        async function searchProducts(query = '') {
+            const input = document.getElementById('product-search-input');
+            if (query === '' && input.value) query = input.value;
+
+            const resultsContainer = document.getElementById('product-search-results');
+            resultsContainer.innerHTML = '<div class="text-center p-3"><div class="spinner-border spinner-border-sm"></div></div>';
+
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/products/?limit=10&title=${encodeURIComponent(query)}`);
+                if (response.ok) {
+                    const products = await response.json();
+                    resultsContainer.innerHTML = '';
+
+                    if (products.length === 0) {
+                        resultsContainer.innerHTML = '<div class="p-3 text-center text-muted">Không tìm thấy sản phẩm</div>';
+                        return;
+                    }
+
+                    products.forEach(p => {
+                        // Check if already in order
+                        const existing = currentItems.find(i => i.product_id === p.id);
+                        const isAdded = !!existing;
+
+                        resultsContainer.innerHTML += `
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <img src="${p.image_url || 'https://via.placeholder.com/60x90'}" class="modal-product-img me-3">
+                                    <div>
+                                        <h6 class="mb-0">${p.title}</h6>
+                                        <small class="text-muted">Giá: ${formatCurrency(p.price)} | Kho: ${p.stock_quantity}</small>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm ${isAdded ? 'btn-secondary' : 'btn-primary'}" 
+                                    ${isAdded ? 'disabled' : ''} 
+                                    onclick="addToOrder('${p.id}', '${p.title.replace(/'/g, "\\'")}', '${p.image_url}', ${p.price}, ${p.stock_quantity})">
+                                    ${isAdded ? 'Đã thêm' : 'Thêm'}
+                                </button>
+                            </div>
+                        `;
+                    });
+                }
+            } catch (error) {
+                console.error(error);
+                resultsContainer.innerHTML = '<div class="text-danger p-3">Lỗi tìm kiếm</div>';
+            }
+        }
+
+        window.addToOrder = function (id, title, image, price, stock) {
+            currentItems.push({
+                product_id: id,
+                title: title,
+                image_url: image,
+                display_price: price, // New items use current price
+                quantity: 1,
+                stock_quantity: stock
+            });
+            renderItems();
+            // Close modal? Or keep open? Keep open for multiple adds.
+            // Refresh search results to show "Added"
+            searchProducts(document.getElementById('product-search-input').value);
+        };
+
+        window.searchProducts = searchProducts; // Expose to global
+
+        window.saveChanges = function () {
+            if (currentItems.length === 0) {
+                showAlert('Lỗi', 'Đơn hàng phải có ít nhất 1 sản phẩm');
+                return;
+            }
+
+            showConfirm('Lưu thay đổi', 'Bạn có chắc chắn muốn lưu thay đổi đơn hàng?', async () => {
+                const updateData = currentItems.map(item => ({
+                    product_id: item.product_id,
+                    quantity: item.quantity
+                }));
+
+                try {
+                    const token = localStorage.getItem('token');
+                    const response = await fetch(`${CONFIG.API_BASE_URL}/orders/${currentOrder.id}/items`, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(updateData)
+                    });
+
+                    if (response.ok) {
+                        showAlert('Thành công', 'Cập nhật đơn hàng thành công!', () => {
+                            window.location.href = 'orders.html';
+                        });
+                    } else {
+                        const error = await response.json();
+                        showAlert('Lỗi', 'Lỗi: ' + (error.detail || 'Không thể cập nhật đơn hàng'));
+                    }
+                } catch (error) {
+                    console.error(error);
+                    showAlert('Lỗi', 'Lỗi kết nối');
+                }
+            });
+        };
+
+        // Helper to show confirmation modal
+        function showConfirm(title, message, onConfirm) {
+            document.getElementById('confirmModalLabel').textContent = title;
+            document.getElementById('confirmModalBody').textContent = message;
+
+            const confirmBtn = document.getElementById('confirmModalBtn');
+            const newBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newBtn, confirmBtn);
+
+            newBtn.addEventListener('click', () => {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('confirmModal'));
+                modal.hide();
+                onConfirm();
+            });
+
+            const modal = new bootstrap.Modal(document.getElementById('confirmModal'));
+            modal.show();
+        }
+
+        // Helper to show alert modal
+        function showAlert(title, message, onClose) {
+            document.getElementById('alertModalLabel').textContent = title;
+            document.getElementById('alertModalBody').textContent = message;
+
+            const modalEl = document.getElementById('alertModal');
+            const alertBtn = document.getElementById('alertModalBtn');
+
+            // Reset button listener
+            const newBtn = alertBtn.cloneNode(true);
+            alertBtn.parentNode.replaceChild(newBtn, alertBtn);
+
+            // Handle close via button or modal hidden event
+            // Note: Bootstrap modal hidden event is better for general closing
+            const hiddenHandler = () => {
+                modalEl.removeEventListener('hidden.bs.modal', hiddenHandler);
+                if (onClose) onClose();
+            };
+            modalEl.addEventListener('hidden.bs.modal', hiddenHandler);
+
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+        }
+    </script>
+
+</body>
+
+</html>

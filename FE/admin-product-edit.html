@@ -212,9 +212,7 @@
                                             <i class="fa-solid fa-times me-2"></i> Hủy
                                         </a>
                                         <hr>
-                                        <!-- [THAY ĐỔI] Thêm class d-none (ẩn)
-                                             Logic: Chỉ hiện nút này khi SỬA (URL có ID), ẩn khi THÊM MỚI
-                                        -->
+
                                         <button type="button" class="btn btn-outline-danger d-none"
                                             data-bs-toggle="modal" data-bs-target="#deleteConfirmModal">
                                             <i class="fa-solid fa-trash-can me-2"></i> Xóa sản phẩm
@@ -294,13 +292,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div> <!-- Hết cột bên phải -->
+                    </div>
 
-                </div> <!-- Hết .row -->
+                </div>
             </form>
 
-            <!-- Modal xác nhận xóa (dùng chung với trang list) -->
-            <!-- Nút Xóa ở trên (ẩn) sẽ kích hoạt modal này -->
+
             <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
@@ -468,7 +465,7 @@
                         : `${CONFIG.API_BASE_URL}/admin/products`;
 
                     const method = isEditMode ? 'PUT' : 'POST';
-
+                    // fetch dữ liệu order từ DB 
                     const response = await fetch(url, {
                         method: method,
                         headers: {

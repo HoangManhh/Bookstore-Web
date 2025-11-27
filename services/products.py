@@ -44,7 +44,8 @@ def get_products(
     min_price: Optional[float] = None,
     max_price: Optional[float] = None,
     author_id: Optional[str] = None,
-    publisher_id: Optional[str] = None
+    publisher_id: Optional[str] = None,
+    title: Optional[str] = None
 ):
     with MySQLClient() as client:
         query = "SELECT * FROM Products WHERE 1=1"
@@ -69,6 +70,10 @@ def get_products(
         if publisher_id:
             query += " AND publisher_id = %s"
             params.append(publisher_id)
+
+        if title:
+            query += " AND title LIKE %s"
+            params.append(f"%{title}%")
 
         query += " LIMIT %s OFFSET %s"
         params.extend([limit, offset])

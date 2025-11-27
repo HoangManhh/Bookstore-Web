@@ -4,6 +4,10 @@ const Cart = {
         if (!token) return null;
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
+            const now = Math.floor(Date.now() / 1000);
+            if (payload.exp && payload.exp < now) {
+                return null;
+            }
             return payload.id;
         } catch (e) {
             return null;
@@ -84,6 +88,12 @@ const Cart = {
     updateBadge() {
         const badge = document.getElementById('cartBadge');
         if (badge) {
+            // Check if user is logged in
+            if (!this.getUserId()) {
+                badge.style.display = 'none';
+                return;
+            }
+
             const count = this.getCount();
             badge.textContent = count;
             badge.style.display = count > 0 ? 'inline-block' : 'none';

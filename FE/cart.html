@@ -152,6 +152,13 @@
     <script src="js/cart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Check Auth
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Vui lòng đăng nhập để xem giỏ hàng.');
+                window.location.href = 'login.html';
+                return;
+            }
             renderCart();
         });
 
